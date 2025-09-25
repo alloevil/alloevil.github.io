@@ -7,3 +7,4 @@
   header_pages:
       - about.md        # 需要的话，创建一个 about.md
   lang: zh-CN
+  minimal_mistakes_skin: mint
