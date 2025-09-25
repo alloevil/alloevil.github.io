@@ -165,18 +165,14 @@
 
 module.exports = HeaderTransformer;
 </code></pre>
-<hr>
-<h2>5. 验证方式</h2>
-<p>（此处为验证截图占位）</p>
-<hr>
-<h2>6. 注意事项</h2>
+<h2>5. 注意事项</h2>
 <ol>
 <li>本方案在 Azure OpenAI 的 GPT-5 模型上验证通过，其它模型尚未测试；</li>
 <li><code>header.js</code> 的路径为绝对路径；</li>
 <li>如果网关接口需要更多自定义 Header，可以在 transformer 中继续扩展。</li>
 </ol>
 <hr>
-<h2>7. 总结</h2>
+<h2>6. 总结</h2>
 <p>通过在 Azure OpenAI 上创建 GPT-5 部署并获取 API Key，结合 Claude Code Router 与自定义 transformer，可以在公司环境下顺利替代 Claude，实现现有工作流的延续。此方案对代码改动较少，主要依赖配置调整与少量 transformer 扩展，适合团队快速落地。</p>
 
     </div>
