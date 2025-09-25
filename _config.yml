@@ -1,4 +1,7 @@
   title: 我的博客
   description: 记录与分享
   theme: minima
+    skin: dark        # 可选：auto、dark、solarized 等
+  header_pages:
+      - about.md        # 需要的话，创建一个 about.md
   lang: zh-CN
