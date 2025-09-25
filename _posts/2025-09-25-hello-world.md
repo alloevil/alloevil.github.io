@@ -7,7 +7,7 @@ toc_sticky: true
 related: true
 classes: wide
 title: Hello, world
-date: 2024-01-01
+date: 2025-09-25
 tags: [essay]
 ---
 
