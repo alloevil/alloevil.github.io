@@ -1,6 +1,8 @@
-  title: 我的博客
+  title: allo的博客
   description: 记录与分享
-  remote_theme: mmistakes/minimal-mistakes    
+  remote_theme: mmistakes/minimal-mistakes
+  plugins:
+          - jekyll-remote-theme
   header_pages:
       - about.md        # 需要的话，创建一个 about.md
   lang: zh-CN
