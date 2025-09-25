@@ -2,7 +2,8 @@
   description: 记录与分享
   remote_theme: mmistakes/minimal-mistakes
   plugins:
-          - jekyll-remote-theme
+    - jekyll-remote-theme
+    - jekyll-include-cache
   header_pages:
       - about.md        # 需要的话，创建一个 about.md
   lang: zh-CN
