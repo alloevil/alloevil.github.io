@@ -12,6 +12,12 @@ minimal_mistakes_skin: "sunrise"
 paginate: 5
 paginate_path: "/page:num/"
 
+author:
+  name: "allo"
+  avatar: "/assets/images/avatar.png"
+  bio: "写点记录"
+  location: "China"
+
 defaults:
   - scope:
       path: ""
