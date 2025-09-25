@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 你好，世界
+title: hello, world
 date: 2024-01-01
-tags: [随笔]
+tags: [essay]
 ---
 
-这里是正文，用 Markdown 书写。
+hi, everyone
