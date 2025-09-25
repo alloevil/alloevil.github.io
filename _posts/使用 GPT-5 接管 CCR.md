@@ -2,7 +2,7 @@
 layout: post
 title: 使用 GPT-5 接管 CCR
 date: 2025-09-25
-tags: [随笔]
+tags: [essy]
 ---
 
 ## 背景
