@@ -11,3 +11,16 @@
 
   paginate: 5
   paginate_path: "/page:num/"
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      toc: true
+      toc_sticky: true
+      related: true
+      classes: wide
