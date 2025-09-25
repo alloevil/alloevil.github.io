@@ -4,8 +4,8 @@
   - jekyll-include-cache
   - jekyll-paginate
 
-  title: allo的博客
-  description: 记录与分享
+  title: allo's blog
+  description: record
   locale: zh-CN
   minimal_mistakes_skin: sunrise
 
