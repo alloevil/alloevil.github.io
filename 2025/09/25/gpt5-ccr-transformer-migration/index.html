@@ -94,31 +94,31 @@
     <div class="e-content article-entry" itemprop="articleBody">
 
         <h2>1. 背景</h2>
-<p>由于公司内部已无法使用 Claude，原有依赖 Claude Code Router (CCR) 的工作流也无法继续使用。为了保持研发工具链的连续性，需要寻找替代方案。经过探索，确认可以通过 GPT-5 + Claude Code Router + 自定义 transformer 来实现替代。<br>（关于 Claude Code Router 的安装方法，可参考公司内部技术圈文章 Claude code 使用 mify api 原创，这里不再赘述。）</p>
+<p>由于公司内部已无法使用 Claude，原有依赖 Claude Code Router (CCR) 的工作流也无法继续使用。为了保持研发工具链的连续性，需要寻找替代方案。经过探索，确认可以通过 GPT-5 + Claude Code Router + 自定义 transformer 来实现替代。<br>（关于 Claude Code Router 的安装方法，请参考 claude code router 项目中的安装方法，这里不再赘述。）</p>
 <hr>
 <h2>2. 整体思路</h2>
 <ol>
-<li>在统一网关生成一个可调用 GPT-5 的 API Key【统一模型网关】Model Access API 文档；</li>
+<li>在 Azure OpenAI 上创建 GPT-5 部署并获取 API Key；</li>
 <li>修改 CCR 的配置文件；</li>
 <li>通过自定义 transformer，为请求添加额外 Header，并结合内置 transformer（如 maxcompletiontokens）；</li>
-<li>验证 GPT-5 模型能够正常响应。</li>
+<li>验证 Azure OpenAI 的 GPT-5 模型能够正常响应。</li>
 </ol>
 <hr>
 <h2>3. 实现步骤</h2>
 <h3>3.1 生成 GPT-5 API Key</h3>
-<p>通过统一网关管理平台，创建一个新的 API Key，并确认其具备 GPT-5 调用权限。</p>
+<p>在 Azure OpenAI 门户中创建 GPT-5 部署（如 <code>gpt-5-chat</code>），并获取 API Key。</p>
 <h3>3.2 配置 Claude Code Router</h3>
-<p>在 <code>~/.claude-code-router/config.json</code> 中新增 provider 配置，指向统一网关接口。</p>
+<p>在 <code>~/.claude-code-router/config.json</code> 中新增 provider 配置，指向 Azure OpenAI Chat Completions 接口。</p>
 <h3>3.3 新增自定义 Transformer</h3>
 <p>新建 <code>header.js</code> 文件，放在指定路径（如 <code>/home/Downloads/header.js</code>），用于自动附加额外请求头。</p>
 <hr>
 <h2>4. 配置文件示例</h2>
-<p><code>~/.claude-code-router/config.json</code> 示例：</p>
+<p><code>~/.claude-code-router/config.json</code> 示例（建议将 <code>api-version</code> 固定为 <code>2025-04-01-preview</code> 以确保兼容性）：</p>
 <pre><code>{
   "Providers": [
     {
       "name": "azure_openai",
-      "api_base_url": "http://model.mify.ai.srv/v1",
+      "api_base_url": "https://your-resource-name.openai.azure.com/openai/deployments/gpt-5-chat/chat/completions?api-version=2025-04-01-preview",
       "api_key": "sk-xxx",
       "models": [
         "gpt-5"
@@ -171,13 +171,13 @@ module.exports = HeaderTransformer;
 <hr>
 <h2>6. 注意事项</h2>
 <ol>
-<li>本方案仅在 GPT-5 模型上验证通过，其它模型尚未测试；</li>
+<li>本方案在 Azure OpenAI 的 GPT-5 模型上验证通过，其它模型尚未测试；</li>
 <li><code>header.js</code> 的路径为绝对路径；</li>
 <li>如果网关接口需要更多自定义 Header，可以在 transformer 中继续扩展。</li>
 </ol>
 <hr>
 <h2>7. 总结</h2>
-<p>通过统一网关生成 GPT-5 API Key，并结合 Claude Code Router + 自定义 transformer，可以在公司环境下顺利替代 Claude，实现现有工作流的延续。此方案对代码改动较少，主要依赖配置调整与少量 transformer 扩展，适合团队快速落地。</p>
+<p>通过在 Azure OpenAI 上创建 GPT-5 部署并获取 API Key，结合 Claude Code Router 与自定义 transformer，可以在公司环境下顺利替代 Claude，实现现有工作流的延续。此方案对代码改动较少，主要依赖配置调整与少量 transformer 扩展，适合团队快速落地。</p>
 
     </div>
     <footer class="article-footer">
