@@ -1,12 +1,13 @@
-  title: allo的博客
-  description: 记录与分享
   remote_theme: mmistakes/minimal-mistakes
   plugins:
-    - jekyll-remote-theme
-    - jekyll-include-cache
-  header_pages:
-      - about.md        # 需要的话，创建一个 about.md
-  lang: zh-CN
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-paginate
+
+  title: allo的博客
+  description: 记录与分享
+  locale: zh-CN
   minimal_mistakes_skin: mint
+
   paginate: 5
   paginate_path: "/page:num/"
