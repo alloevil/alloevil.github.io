@@ -1,26 +1,26 @@
-  remote_theme: mmistakes/minimal-mistakes
-  plugins:
+remote_theme: "mmistakes/minimal-mistakes"
+
+plugins:
   - jekyll-remote-theme
-  - jekyll-include-cache
   - jekyll-paginate
 
-  title: allo's blog
-  description: record
-  locale: zh-CN
-  minimal_mistakes_skin: sunrise
+title: "allo's blog"
+description: "record"
+locale: "zh-CN"
+minimal_mistakes_skin: "sunrise"
 
-  paginate: 5
-  paginate_path: "/page:num/"
+paginate: 5
+paginate_path: "/page:num/"
 
 defaults:
   - scope:
       path: ""
-      type: posts
+      type: "posts"
     values:
-      layout: single
+      layout: "single"
       author_profile: true
       read_time: true
       toc: true
       toc_sticky: true
       related: true
-      classes: wide
+      classes: "wide"
