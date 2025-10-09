@@ -7,7 +7,7 @@ toc_sticky: true
 related: true
 classes: wide
 title: "哺乳期营养补充策略的循证分析：Elevit 与 Doctor's Best D3 + K2 配方评估报告"
-date: 2025-10-10 00:00:00 +0800
+date: 2025-10-09 00:00:00 +0800
 categories: [健康, 营养]
 tags: [哺乳期, 第四孕期, Elevit, Doctor's Best, 维生素D, 维生素K2, 钙, 碘, 硒, DHA]
 permalink: /breastfeeding-nutrition-elevit-vs-doctors-best-d3-k2/
