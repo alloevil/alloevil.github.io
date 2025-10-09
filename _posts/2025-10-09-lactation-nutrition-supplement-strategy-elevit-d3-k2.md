@@ -1,12 +1,17 @@
 ---
 layout: post
+author_profile: true
+read_time: true
+toc: true
+toc_sticky: true
+related: true
+classes: wide
 title: "哺乳期营养补充策略的循证分析：Elevit 与 Doctor's Best D3 + K2 配方评估报告"
 date: 2025-10-09 00:00:00 +0800
-categories: [健康, 营养]
 tags: [哺乳期, 第四孕期, Elevit, Doctor's Best, 维生素D, 维生素K2, 钙, 碘, 硒, DHA]
 description: "基于权威营养学标准，对爱乐维哺乳期配方与 Doctor's Best D3+K2 的安全性与有效性进行循证评估，并提出审慎、可操作的补充策略。"
-toc: true
 ---
+
 
 引言：解读“第四孕期”的营养需求
 
