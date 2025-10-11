@@ -6,7 +6,7 @@ toc: true
 toc_sticky: true
 related: true
 classes: wide
-title: "使用 logging + rich 美化 VSCode 调试输出"
+title: "使用 logging + rich 美化 VSCode / Cursor 调试输出"
 date: 2025-10-11 00:00:00 +0800
 categories: [编程, Python]
 tags: [Python, logging, rich, VSCode, 调试, 日志]
