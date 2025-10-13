@@ -49,6 +49,15 @@ title: 首页
 {% assign chart_w = days | times: step | plus: 40 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: 40 }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: 40 }}" xmlns="http://www.w3.org/2000/svg">
   <line x1="20" y1="{{ chart_h }}" x2="{{ chart_w | minus: 20 }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+  <line x1="20" y1="0" x2="20" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+  {% assign tick_step = max_total | divided_by: 4 %}{% if tick_step == 0 %}{% assign tick_step = 1 %}{% endif %}
+  {% for i in (0..4) %}
+    {% if i == 4 %}{% assign val = max_total %}{% else %}{% assign val = i | times: tick_step %}{% endif %}
+    {% assign h = val | times: chart_h | divided_by: max_total %}
+    {% assign y = chart_h | minus: h %}
+    <line x1="20" y1="{{ y }}" x2="{{ chart_w | minus: 20 }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
+    <text x="16" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
+  {% endfor %}
   {% assign x = 20 %}
   {% for e in entries %}
     {% assign d = e.date | slice: 0, 7 %}
