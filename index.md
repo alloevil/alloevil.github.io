@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: single
 title: 首页
 ---
 
@@ -30,4 +30,11 @@ title: 首页
 - 详情见：[俯卧撑记录](/workout/)
 
 ## 博客
-最新文章列表见下方。
+{% assign posts_list = site.posts | slice: 0, 10 %}
+<ul>
+{% for p in posts_list %}
+  <li><a href="{{ p.url }}">{{ p.title }}</a> <small>· {{ p.date | date: "%Y-%m-%d" }}</small></li>
+{% endfor %}
+</ul>
+
+更多文章见：[博客](/blog/)
