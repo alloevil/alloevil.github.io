@@ -29,7 +29,7 @@ title: 首页
 - 本月总俯卧撑：{{ month_total }} 次（早：{{ am_month }} · 晚：{{ pm_month }}）
 - 详情见：[俯卧撑记录](/workout/)
 
-## 博客
+## 文章
 {% assign posts_list = site.posts | slice: 0, 10 %}
 <ul>
 {% for p in posts_list %}
@@ -37,4 +37,4 @@ title: 首页
 {% endfor %}
 </ul>
 
-更多文章见：[博客](/blog/)
+更多文章见：[文章](/blog/)
