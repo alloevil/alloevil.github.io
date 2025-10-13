@@ -28,6 +28,57 @@ permalink: /workout/
 - 本月打卡天数：{{ days }}
 - 本月总俯卧撑：{{ month_total }} 次（早：{{ am_month }} · 晚：{{ pm_month }}）
 
+### 本月折线图
+{% assign max_total = 0 %}
+{% for e in entries %}
+  {% assign d = e.date | slice: 0, 7 %}
+  {% if d == month %}
+    {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_total = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_total = pm_total | plus: r %}{% endfor %}{% endif %}
+    {% assign day_total = am_total | plus: pm_total %}
+    {% if day_total > max_total %}{% assign max_total = day_total %}{% endif %}
+  {% endif %}
+{% endfor %}
+{% if max_total == 0 %}{% assign max_total = 1 %}{% endif %}
+
+{% assign chart_h = 160 %}
+{% assign step = 28 %}
+{% assign chart_w = days | times: step | plus: 40 %}
+{% assign points = "" %}
+{% assign x = 20 %}
+{% for e in entries %}
+  {% assign d = e.date | slice: 0, 7 %}
+  {% if d == month %}
+    {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_total = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_total = pm_total | plus: r %}{% endfor %}{% endif %}
+    {% assign day_total = am_total | plus: pm_total %}
+    {% assign h = day_total | times: chart_h | divided_by: max_total %}
+    {% assign y = chart_h | minus: h %}
+    {% assign points = points | append: x | append: "," | append: y | append: " " %}
+    {% assign x = x | plus: step %}
+  {% endif %}
+{% endfor %}
+
+<svg width="{{ chart_w }}" height="{{ chart_h | plus: 40 }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: 40 }}" xmlns="http://www.w3.org/2000/svg">
+  <line x1="20" y1="{{ chart_h }}" x2="{{ chart_w | minus: 20 }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+  <polyline fill="none" stroke="#1976d2" stroke-width="2" points="{{ points | strip }}" />
+  {% assign x = 20 %}
+  {% for e in entries %}
+    {% assign d = e.date | slice: 0, 7 %}
+    {% if d == month %}
+      {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
+      {% assign pm_total = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_total = pm_total | plus: r %}{% endfor %}{% endif %}
+      {% assign day_total = am_total | plus: pm_total %}
+      {% assign h = day_total | times: chart_h | divided_by: max_total %}
+      {% assign y = chart_h | minus: h %}
+      <circle cx="{{ x }}" cy="{{ y }}" r="3" fill="#1976d2" />
+      <text x="{{ x }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <text x="{{ x }}" y="{{ y | minus: 6 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      {% assign x = x | plus: step %}
+    {% endif %}
+  {% endfor %}
+</svg>
+
 ## 明细
 {% for e in entries %}
   {% assign d = e.date | slice: 0, 7 %}
