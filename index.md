@@ -46,10 +46,10 @@ title: 首页
 {% assign bar_w = 20 %}
 {% assign gap = 8 %}
 {% assign step = bar_w | plus: gap %}
-{% assign left_pad = 28 %}
-{% assign right_pad = 20 %}
-{% assign top_pad = 24 %}
-{% assign bottom_pad = 28 %}
+{% assign left_pad = 32 %}
+{% assign right_pad = 24 %}
+{% assign top_pad = 36 %}
+{% assign bottom_pad = 32 %}
 {% assign step_total = days | times: step %}
 {% assign chart_w = left_pad | plus: step_total | plus: right_pad %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +75,7 @@ title: 首页
       {% assign y = chart_h | minus: h %}
       <rect x="{{ x }}" y="{{ y }}" width="{{ bar_w }}" height="{{ h }}" fill="#4caf50" />
       <text x="{{ x | plus: bar_w | divided_by: 2 }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
-      <text x="{{ x | plus: bar_w | divided_by: 2 }}" y="{{ y | minus: 6 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      <text x="{{ x | plus: bar_w | divided_by: 2 }}" y="{{ y | minus: 10 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}

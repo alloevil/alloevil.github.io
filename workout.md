@@ -59,9 +59,11 @@ permalink: /workout/
   {% endif %}
 {% endfor %}
 
-<svg width="{{ chart_w }}" height="{{ chart_h | plus: 40 }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: 40 }}" xmlns="http://www.w3.org/2000/svg">
-  <line x1="20" y1="{{ chart_h }}" x2="{{ chart_w | minus: 20 }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
-  <line x1="20" y1="0" x2="20" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 32 %}
+<svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, {{ top_pad }})">
+  <line x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+  <line x1="{{ left_pad }}" y1="0" x2="{{ left_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
   {% assign tick_step = max_total | divided_by: 4 %}{% if tick_step == 0 %}{% assign tick_step = 1 %}{% endif %}
   {% for i in (0..4) %}
     {% if i == 4 %}{% assign val = max_total %}{% else %}{% assign val = i | times: tick_step %}{% endif %}
