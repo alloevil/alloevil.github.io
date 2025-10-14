@@ -43,9 +43,12 @@ permalink: /workout/
 
 {% assign chart_h = 160 %}
 {% assign step = 28 %}
-{% assign chart_w = days | times: step | plus: 40 %}
+{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 32 %}
+{% assign chart_w = days | times: step | plus: left_pad | plus: right_pad %}
 {% assign points = "" %}
-{% assign x = 20 %}
+{% assign x = left_pad %}
+{% assign label_offset = 10 %}
+{% assign min_label_y = 10 %}
 {% for e in entries %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
@@ -84,7 +87,8 @@ permalink: /workout/
       {% assign y = chart_h | minus: h %}
       <circle cx="{{ x }}" cy="{{ y }}" r="3" fill="#1976d2" />
       <text x="{{ x }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
-      <text x="{{ x }}" y="{{ y | minus: 6 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      {% assign label_y = y | minus: 12 %}{% if label_y < 8 %}{% assign label_y = 8 %}{% endif %}
+      <text x="{{ x }}" y="{{ label_y }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
