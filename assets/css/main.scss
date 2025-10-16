@@ -28,6 +28,13 @@ svg .value-label {
   font-size: 10px;
   dominant-baseline: hanging;
 }
+svg .bar-label {
+  fill: #555;
+}
+svg .axis-label {
+  fill: #666;
+  font-size: 11px;
+}
 svg .line {
   stroke: #1976d2;
   stroke-width: 2;

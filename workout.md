@@ -62,7 +62,7 @@ permalink: /workout/
   {% endif %}
 {% endfor %}
 
-{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 64 %}
+{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 80 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
   <line class="axis axis--x" x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" />
@@ -91,7 +91,7 @@ permalink: /workout/
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
-  <text x="{{ left_pad | plus: chart_w | minus: left_pad | minus: right_pad | divided_by: 2 }}" y="{{ chart_h | plus: 28 }}" font-size="11" text-anchor="middle">日期</text>
+  <text x="{{ left_pad | plus: chart_w | minus: left_pad | minus: right_pad | divided_by: 2 }}" y="{{ chart_h | plus: 44 }}" font-size="11" text-anchor="middle">日期</text>
   <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
 </svg>
 
