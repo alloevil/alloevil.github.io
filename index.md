@@ -53,6 +53,7 @@ title: 首页
 {% assign bottom_pad = 32 %}
 {% assign step_total = days | times: step %}
 {% assign chart_w = left_pad | plus: step_total | plus: right_pad %}
+{% assign half_step_total = step_total | divided_by: 2 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
     <line x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
@@ -63,8 +64,9 @@ title: 首页
     {% assign h = val | times: chart_h | divided_by: max_total %}
     {% assign y = chart_h | minus: h %}
     <line x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
-    <text x="{{ left_pad | minus: 4 }}" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
+    <text x="{{ left_pad | minus: 6 }}" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
   {% endfor %}
+  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
   {% assign x = left_pad %}
   {% for e in entries %}
     {% assign d = e.date | slice: 0, 7 %}
@@ -80,6 +82,7 @@ title: 首页
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
+  <text x="{{ left_pad | plus: half_step_total }}" y="{{ chart_h | plus: 28 }}" font-size="11" text-anchor="middle">日期</text>
   </g>
 </svg>
 
