@@ -66,7 +66,7 @@ title: 首页
     <line class="grid" x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" />
     <text class="tick-label" x="{{ left_pad | minus: 6 }}" y="{{ y | plus: 4 }}" text-anchor="end">{{ val }}</text>
   {% endfor %}
-  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
+  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">Count</text>
   {% assign x = left_pad %}
   {% for e in entries %}
     {% assign d = e.date | slice: 0, 7 %}
@@ -82,7 +82,7 @@ title: 首页
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
-  <text x="{{ left_pad | plus: half_step_total }}" y="{{ chart_h | plus: 44 }}" font-size="11" text-anchor="middle">日期</text>
+  <text x="{{ left_pad | plus: half_step_total }}" y="{{ chart_h | plus: 44 }}" font-size="11" text-anchor="middle">Date</text>
   </g>
 </svg>
 

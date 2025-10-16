@@ -91,8 +91,8 @@ permalink: /workout/
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
-  <text x="{{ left_pad | plus: chart_w | minus: left_pad | minus: right_pad | divided_by: 2 }}" y="{{ chart_h | plus: 44 }}" font-size="11" text-anchor="middle">日期</text>
-  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
+  <text x="{{ left_pad | plus: chart_w | minus: left_pad | minus: right_pad | divided_by: 2 }}" y="{{ chart_h | plus: 44 }}" font-size="11" text-anchor="middle">Date</text>
+  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">Count</text>
 </svg>
 
 ## 明细
