@@ -62,7 +62,7 @@ permalink: /workout/
   {% endif %}
 {% endfor %}
 
-{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 48 %}
+{% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 64 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
   <line class="axis axis--x" x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" />
@@ -85,7 +85,7 @@ permalink: /workout/
       {% assign h = day_total | times: chart_h | divided_by: max_total %}
       {% assign y = chart_h | minus: h %}
       <circle class="dot" cx="{{ x }}" cy="{{ y }}" r="3" />
-      <text class="bar-label" x="{{ x }}" y="{{ chart_h | plus: 18 }}" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <text class="bar-label" x="{{ x }}" y="{{ chart_h | plus: 22 }}" text-anchor="middle" transform="rotate(30 {{ x }}, {{ chart_h | plus: 22 }})">{{ e.date | slice: -2, 2 }}</text>
       {% assign label_y = y | minus: 12 %}{% if label_y < 8 %}{% assign label_y = 8 %}{% endif %}
       <text class="value-label" x="{{ x }}" y="{{ label_y }}" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
