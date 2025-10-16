@@ -66,17 +66,16 @@ permalink: /workout/
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
   <line x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
-  <line x1="{{ left_pad }}" y1="0" x2="{{ left_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
   {% assign tick_step = max_total | divided_by: 4 %}{% if tick_step == 0 %}{% assign tick_step = 1 %}{% endif %}
   {% for i in (0..4) %}
     {% if i == 4 %}{% assign val = max_total %}{% else %}{% assign val = i | times: tick_step %}{% endif %}
     {% assign h = val | times: chart_h | divided_by: max_total %}
     {% assign y = chart_h | minus: h %}
-    <line x1="20" y1="{{ y }}" x2="{{ chart_w | minus: 20 }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
-    <text x="16" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
+    <line x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
+    <text x="{{ left_pad | minus: 4 }}" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
   {% endfor %}
   <polyline fill="none" stroke="#1976d2" stroke-width="2" points="{{ points | strip }}" />
-  {% assign x = 20 %}
+  {% assign x = left_pad %}
   {% for e in entries %}
     {% assign d = e.date | slice: 0, 7 %}
     {% if d == month %}
@@ -92,6 +91,8 @@ permalink: /workout/
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
+  <text x="{{ left_pad | plus: chart_w | minus: left_pad | minus: right_pad | divided_by: 2 }}" y="{{ chart_h | plus: 28 }}" font-size="11" text-anchor="middle">日期</text>
+  <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
 </svg>
 
 ## 明细
