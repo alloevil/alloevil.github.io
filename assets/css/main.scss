@@ -26,6 +26,7 @@ svg .bar-label,
 svg .value-label {
   fill: #444;
   font-size: 10px;
+  dominant-baseline: hanging;
 }
 svg .line {
   stroke: #1976d2;

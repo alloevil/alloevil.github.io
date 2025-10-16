@@ -50,7 +50,7 @@ title: 首页
 {% assign left_pad = 32 %}
 {% assign right_pad = 24 %}
 {% assign top_pad = 36 %}
-{% assign bottom_pad = 32 %}
+{% assign bottom_pad = 48 %}
 {% assign step_total = days | times: step %}
 {% assign chart_w = left_pad | plus: step_total | plus: right_pad %}
 {% assign half_step_total = step_total | divided_by: 2 %}
@@ -77,7 +77,7 @@ title: 首页
       {% assign h = day_total | times: chart_h | divided_by: max_total %}
       {% assign y = chart_h | minus: h %}
       <rect class="bar" rx="4" ry="4" x="{{ x }}" y="{{ y }}" width="{{ bar_w }}" height="{{ h }}" />
-      <text class="bar-label" x="{{ x | plus: half_bar }}" y="{{ chart_h | plus: 14 }}" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <text class="bar-label" x="{{ x | plus: half_bar }}" y="{{ chart_h | plus: 18 }}" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
       <text class="value-label" x="{{ x | plus: half_bar }}" y="{{ y | minus: 8 }}" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
