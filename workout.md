@@ -65,7 +65,7 @@ permalink: /workout/
 {% assign left_pad = 32 %}{% assign right_pad = 24 %}{% assign top_pad = 36 %}{% assign bottom_pad = 32 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
-  <line x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+  <line class="axis axis--x" x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" />
   {% assign tick_step = max_total | divided_by: 4 %}{% if tick_step == 0 %}{% assign tick_step = 1 %}{% endif %}
   {% for i in (0..4) %}
     {% if i == 4 %}{% assign val = max_total %}{% else %}{% assign val = i | times: tick_step %}{% endif %}
@@ -74,7 +74,7 @@ permalink: /workout/
     <line x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
     <text x="{{ left_pad | minus: 4 }}" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
   {% endfor %}
-  <polyline fill="none" stroke="#1976d2" stroke-width="2" points="{{ points | strip }}" />
+  <polyline class="line" fill="none" points="{{ points | strip }}" />
   {% assign x = left_pad %}
   {% for e in entries %}
     {% assign d = e.date | slice: 0, 7 %}
@@ -84,10 +84,10 @@ permalink: /workout/
       {% assign day_total = am_total | plus: pm_total %}
       {% assign h = day_total | times: chart_h | divided_by: max_total %}
       {% assign y = chart_h | minus: h %}
-      <circle cx="{{ x }}" cy="{{ y }}" r="3" fill="#1976d2" />
-      <text x="{{ x }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <circle class="dot" cx="{{ x }}" cy="{{ y }}" r="3" />
+      <text class="bar-label" x="{{ x }}" y="{{ chart_h | plus: 14 }}" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
       {% assign label_y = y | minus: 12 %}{% if label_y < 8 %}{% assign label_y = 8 %}{% endif %}
-      <text x="{{ x }}" y="{{ label_y }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      <text class="value-label" x="{{ x }}" y="{{ label_y }}" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}

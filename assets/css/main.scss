@@ -2,3 +2,36 @@
 ---
 @import "minimal-mistakes/skins/sunrise";
 @import "minimal-mistakes";
+
+/* Inline SVG chart styles */
+svg .axis.axis--x {
+  stroke: #b0b0b0;
+  stroke-width: 1;
+}
+svg .grid {
+  stroke: #e6e6e6;
+  stroke-width: 1;
+}
+svg .tick-label {
+  fill: #666;
+  font-size: 10px;
+}
+svg .bar {
+  fill: #4caf50;
+}
+svg .bar:hover {
+  fill: #43a047;
+}
+svg .bar-label,
+svg .value-label {
+  fill: #444;
+  font-size: 10px;
+}
+svg .line {
+  stroke: #1976d2;
+  stroke-width: 2;
+}
+svg .dot {
+  fill: #1976d2;
+}
+

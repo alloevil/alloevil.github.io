@@ -56,15 +56,15 @@ title: 首页
 {% assign half_step_total = step_total | divided_by: 2 %}
 <svg width="{{ chart_w }}" height="{{ chart_h | plus: top_pad | plus: bottom_pad }}" viewBox="0 0 {{ chart_w }} {{ chart_h | plus: top_pad | plus: bottom_pad }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ top_pad }})">
-    <line x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
+    <line class="axis axis--x" x1="{{ left_pad }}" y1="{{ chart_h }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
     <line x1="{{ left_pad }}" y1="0" x2="{{ left_pad }}" y2="{{ chart_h }}" stroke="#999" stroke-width="1"/>
   {% assign tick_step = max_total | divided_by: 4 %}{% if tick_step == 0 %}{% assign tick_step = 1 %}{% endif %}
   {% for i in (0..4) %}
     {% if i == 4 %}{% assign val = max_total %}{% else %}{% assign val = i | times: tick_step %}{% endif %}
     {% assign h = val | times: chart_h | divided_by: max_total %}
     {% assign y = chart_h | minus: h %}
-    <line x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" stroke="#eee" stroke-width="1"/>
-    <text x="{{ left_pad | minus: 6 }}" y="{{ y | plus: 4 }}" font-size="10" text-anchor="end">{{ val }}</text>
+    <line class="grid" x1="{{ left_pad }}" y1="{{ y }}" x2="{{ chart_w | minus: right_pad }}" y2="{{ y }}" />
+    <text class="tick-label" x="{{ left_pad | minus: 6 }}" y="{{ y | plus: 4 }}" text-anchor="end">{{ val }}</text>
   {% endfor %}
   <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">次数</text>
   {% assign x = left_pad %}
@@ -76,9 +76,9 @@ title: 首页
       {% assign day_total = am_total | plus: pm_total %}
       {% assign h = day_total | times: chart_h | divided_by: max_total %}
       {% assign y = chart_h | minus: h %}
-      <rect x="{{ x }}" y="{{ y }}" width="{{ bar_w }}" height="{{ h }}" fill="#4caf50" />
-      <text x="{{ x | plus: half_bar }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
-      <text x="{{ x | plus: half_bar }}" y="{{ y | minus: 8 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      <rect class="bar" rx="4" ry="4" x="{{ x }}" y="{{ y }}" width="{{ bar_w }}" height="{{ h }}" />
+      <text class="bar-label" x="{{ x | plus: half_bar }}" y="{{ chart_h | plus: 14 }}" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <text class="value-label" x="{{ x | plus: half_bar }}" y="{{ y | minus: 8 }}" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
