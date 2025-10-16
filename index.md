@@ -44,6 +44,7 @@ title: 首页
 ### 本月图表
 {% assign chart_h = 160 %}
 {% assign bar_w = 20 %}
+{% assign half_bar = bar_w | divided_by: 2 %}
 {% assign gap = 8 %}
 {% assign step = bar_w | plus: gap %}
 {% assign left_pad = 32 %}
@@ -74,8 +75,8 @@ title: 首页
       {% assign h = day_total | times: chart_h | divided_by: max_total %}
       {% assign y = chart_h | minus: h %}
       <rect x="{{ x }}" y="{{ y }}" width="{{ bar_w }}" height="{{ h }}" fill="#4caf50" />
-      <text x="{{ x | plus: bar_w | divided_by: 2 }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
-      <text x="{{ x | plus: bar_w | divided_by: 2 }}" y="{{ y | minus: 10 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
+      <text x="{{ x | plus: half_bar }}" y="{{ chart_h | plus: 14 }}" font-size="10" text-anchor="middle">{{ e.date | slice: -2, 2 }}</text>
+      <text x="{{ x | plus: half_bar }}" y="{{ y | minus: 8 }}" font-size="10" text-anchor="middle">{{ day_total }}</text>
       {% assign x = x | plus: step %}
     {% endif %}
   {% endfor %}
