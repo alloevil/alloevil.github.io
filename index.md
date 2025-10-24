@@ -6,13 +6,14 @@ title: 首页
 ## 训练概览
 {% assign month = site.time | date: "%Y-%m" %}
 {% assign entries = site.data.workouts %}
+{% assign entries_sorted = entries | sort: "date" %}
 
 {% assign days = 0 %}
 {% assign month_total = 0 %}
 {% assign am_month = 0 %}
 {% assign pm_month = 0 %}
 
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign days = days | plus: 1 %}
@@ -30,7 +31,7 @@ title: 首页
 - 详情见：[俯卧撑记录](/workout/)
 
 {% assign max_total = 0 %}
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
@@ -68,7 +69,7 @@ title: 首页
   {% endfor %}
   <text x="{{ left_pad | minus: 22 }}" y="{{ chart_h | divided_by: 2 }}" font-size="11" text-anchor="middle" transform="rotate(-90 {{ left_pad | minus: 22 }}, {{ chart_h | divided_by: 2 }})">Count</text>
   {% assign x = left_pad %}
-  {% for e in entries %}
+  {% for e in entries_sorted %}
     {% assign d = e.date | slice: 0, 7 %}
     {% if d == month %}
       {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}

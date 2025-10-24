@@ -6,13 +6,14 @@ permalink: /workout/
 
 {% assign month = site.time | date: "%Y-%m" %}
 {% assign entries = site.data.workouts %}
+{% assign entries_sorted = entries | sort: "date" %}
 
 {% assign days = 0 %}
 {% assign month_total = 0 %}
 {% assign am_month = 0 %}
 {% assign pm_month = 0 %}
 
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign days = days | plus: 1 %}
@@ -30,7 +31,7 @@ permalink: /workout/
 
 ### 本月折线图
 {% assign max_total = 0 %}
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
@@ -49,7 +50,7 @@ permalink: /workout/
 {% assign x = left_pad %}
 {% assign label_offset = 10 %}
 {% assign min_label_y = 10 %}
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
@@ -76,7 +77,7 @@ permalink: /workout/
   {% endfor %}
   <polyline class="line" fill="none" points="{{ points | strip }}" />
   {% assign x = left_pad %}
-  {% for e in entries %}
+  {% for e in entries_sorted %}
     {% assign d = e.date | slice: 0, 7 %}
     {% if d == month %}
       {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
@@ -96,7 +97,7 @@ permalink: /workout/
 </svg>
 
 ## 明细
-{% for e in entries %}
+{% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
   {% if d == month %}
     {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
