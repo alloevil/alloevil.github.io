@@ -132,7 +132,9 @@ title: 首页
         {% assign m_index = m | minus: 1 %}
         {% assign mw = month_width | times: m_index %}
         {% assign mg = month_gap | times: m_index %}
-        {% assign lx = heat_left | plus: mw | plus: mg | plus: month_width | divided_by: 2 %}
+        {% assign month_offset = heat_left | plus: mw | plus: mg %}
+        {% assign half_month = month_width | divided_by: 2 %}
+        {% assign lx = month_offset | plus: half_month %}
         <text class="month-label" x="{{ lx }}" y="{{ label_y }}" text-anchor="middle">{{ m }}</text>
       {% endfor %}
     </g>
