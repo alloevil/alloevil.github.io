@@ -131,6 +131,8 @@ permalink: /workout/
   </svg>
 </div>
 
+### 本月热力图（{{ site.time | date: "%Y年%-m月" }}）
+
 {% assign first_day = month | append: "-01" %}
 {% assign first_w = first_day | date: "%w" | plus: 0 %}
 {% assign heat_box = 12 %}
