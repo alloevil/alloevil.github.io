@@ -228,13 +228,16 @@ permalink: /workout/
           {% endif %}
         {% endfor %}
         {% assign fill = "#ebedf0" %}
-        {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#e6f5c9" %}{% endif %}
-        {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#c6e48b" %}{% endif %}
-        {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#a5d76e" %}{% endif %}
-        {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#8ac55e" %}{% endif %}
-        {% if day_total > t4 and day_total <= t5 %}{% assign fill = "#7bc96f" %}{% endif %}
-        {% if day_total > t5 and day_total <= t6 %}{% assign fill = "#2ca244" %}{% endif %}
-        {% if day_total > t6 %}{% assign fill = "#196127" %}{% endif %}
+        {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#eef8d6" %}{% endif %}
+        {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#e6f5c9" %}{% endif %}
+        {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#d6efaa" %}{% endif %}
+        {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#c6e48b" %}{% endif %}
+        {% if day_total > t4 and day_total <= t5 %}{% assign fill = "#b2dc78" %}{% endif %}
+        {% if day_total > t5 and day_total <= t6 %}{% assign fill = "#a5d76e" %}{% endif %}
+        {% if day_total > t6 and day_total <= t7 %}{% assign fill = "#8ac55e" %}{% endif %}
+        {% if day_total > t7 and day_total <= t8 %}{% assign fill = "#66b34f" %}{% endif %}
+        {% if day_total > t8 and day_total <= t9 %}{% assign fill = "#2ca244" %}{% endif %}
+        {% if day_total > t9 %}{% assign fill = "#196127" %}{% endif %}
         <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
       {% endif %}
     {% endfor %}
