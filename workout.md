@@ -29,7 +29,87 @@ permalink: /workout/
 - 本月打卡天数：{{ days }}
 - 本月总俯卧撑：{{ month_total }} 次（早：{{ am_month }} · 晚：{{ pm_month }}）
 
-### 本月热力图
+### 全年热力图
+{% assign year = site.time | date: "%Y" %}
+{% assign year_max = 0 %}{% assign year_min = 0 %}
+{% for e in entries_sorted %}
+  {% assign y = e.date | slice: 0, 4 %}
+  {% if y == year %}
+    {% assign am_t = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_t = am_t | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_t = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_t = pm_t | plus: r %}{% endfor %}{% endif %}
+    {% assign day_t = am_t | plus: pm_t %}
+    {% if day_t > year_max %}{% assign year_max = day_t %}{% endif %}
+    {% if year_min == 0 and day_t > 0 %}{% assign year_min = day_t %}{% endif %}
+    {% if day_t > 0 and day_t < year_min %}{% assign year_min = day_t %}{% endif %}
+  {% endif %}
+{% endfor %}
+{% if year_max == 0 %}{% assign year_max = 1 %}{% endif %}
+{% if year_min == 0 %}{% assign year_min = 1 %}{% endif %}
+{% assign range = year_max | minus: year_min %}
+{% if range < 5 %}
+  {% assign r1 = 1 %}{% assign r2 = 2 %}{% assign r3 = 3 %}{% assign r4 = 4 %}
+{% else %}
+  {% assign r1 = range | divided_by: 5 %}
+  {% assign r2 = r1 | times: 2 %}
+  {% assign r3 = r1 | times: 3 %}
+  {% assign r4 = r1 | times: 4 %}
+{% endif %}
+{% assign t1 = year_min | plus: r1 %}
+{% assign t2 = year_min | plus: r2 %}
+{% assign t3 = year_min | plus: r3 %}
+{% assign t4 = year_min | plus: r4 %}
+
+{% assign heat_box = 12 %}
+{% assign heat_gap = 2 %}
+{% assign heat_step = heat_box | plus: heat_gap %}
+{% assign month_weeks = 6 %}
+{% assign month_gap = 8 %}
+{% assign heat_left = 32 %}
+{% assign heat_right = 24 %}
+{% assign heat_top = 10 %}
+{% assign heat_bottom = 10 %}
+{% assign month_width = month_weeks | times: heat_step %}
+{% assign heat_w = heat_left | plus: 12 | times: month_width | plus: 11 | times: month_gap | plus: heat_right %}
+{% assign heat_h = 7 | times: heat_step %}
+<svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom }}" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, {{ heat_top }})">
+    {% for m in (1..12) %}
+      {% assign mm = m %}{% if m < 10 %}{% assign mm = "0" | append: m %}{% endif %}
+      {% assign month_str = year | append: "-" | append: mm %}
+      {% assign first_day = month_str | append: "-01" %}
+      {% assign first_w = first_day | date: "%w" | plus: 0 %}
+      {% assign month_offset = heat_left | plus: month_width | times: m | minus: month_width | plus: month_gap | times: m | minus: month_gap %}
+      {% for i in (1..31) %}
+        {% assign dd = i %}{% if i < 10 %}{% assign dd = "0" | append: i %}{% endif %}
+        {% assign day_date = month_str | append: "-" | append: dd %}
+        {% assign d_m = day_date | date: "%Y-%m" %}
+        {% if d_m == month_str %}
+          {% assign dow = day_date | date: "%w" | plus: 0 %}
+          {% assign col_base = i | minus: 1 | plus: first_w %}
+          {% assign col = col_base | divided_by: 7 %}
+          {% assign x = month_offset | plus: col | times: heat_step %}
+          {% assign y = dow | times: heat_step %}
+          {% assign day_total = 0 %}
+          {% for e in entries_sorted %}
+            {% if e.date == day_date %}
+              {% assign am_t = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_t = am_t | plus: r %}{% endfor %}{% endif %}
+              {% assign pm_t = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_t = pm_t | plus: r %}{% endfor %}{% endif %}
+              {% assign day_total = am_t | plus: pm_t %}
+            {% endif %}
+          {% endfor %}
+          {% assign fill = "#ebedf0" %}
+          {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#c6e48b" %}{% endif %}
+          {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#a5d76e" %}{% endif %}
+          {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#7bc96f" %}{% endif %}
+          {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#239a3b" %}{% endif %}
+          {% if day_total > t4 %}{% assign fill = "#196127" %}{% endif %}
+          <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </g>
+</svg>
+
 {% assign first_day = month | append: "-01" %}
 {% assign first_w = first_day | date: "%w" | plus: 0 %}
 {% assign heat_box = 12 %}
