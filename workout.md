@@ -42,6 +42,17 @@ permalink: /workout/
 {% assign heat_bottom = 10 %}
 {% assign heat_w = heat_left | plus: heat_weeks | times: heat_step | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
+{% assign max_total = 0 %}
+{% for e in entries_sorted %}
+  {% assign d = e.date | slice: 0, 7 %}
+  {% if d == month %}
+    {% assign am_t = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_t = am_t | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_t = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_t = pm_t | plus: r %}{% endfor %}{% endif %}
+    {% assign day_t = am_t | plus: pm_t %}
+    {% if day_t > max_total %}{% assign max_total = day_t %}{% endif %}
+  {% endif %}
+{% endfor %}
+{% if max_total == 0 %}{% assign max_total = 1 %}{% endif %}
 {% assign min_total = max_total %}
 {% for e in entries_sorted %}
   {% assign d = e.date | slice: 0, 7 %}
@@ -87,11 +98,11 @@ permalink: /workout/
           {% endif %}
         {% endfor %}
         {% assign fill = "#ebedf0" %}
-        {% if day_total > 0 and day_total <= stepv %}{% assign fill = "#c6e48b" %}{% endif %}
-        {% if day_total > stepv and day_total <= step2 %}{% assign fill = "#a5d76e" %}{% endif %}
-        {% if day_total > step2 and day_total <= step3 %}{% assign fill = "#7bc96f" %}{% endif %}
-        {% if day_total > step3 and day_total <= avg | times: 2 %}{% assign fill = "#239a3b" %}{% endif %}
-        {% if day_total > avg | times: 2 %}{% assign fill = "#196127" %}{% endif %}
+        {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#c6e48b" %}{% endif %}
+        {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#a5d76e" %}{% endif %}
+        {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#7bc96f" %}{% endif %}
+        {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#239a3b" %}{% endif %}
+        {% if day_total > t4 %}{% assign fill = "#196127" %}{% endif %}
         <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
       {% endif %}
     {% endfor %}
