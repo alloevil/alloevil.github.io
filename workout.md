@@ -120,8 +120,11 @@ permalink: /workout/
         {% assign mw = month_width | times: m_index %}
         {% assign mg = month_gap | times: m_index %}
         {% assign month_offset = heat_left | plus: mw | plus: mg %}
-        {% assign half_month = month_width | divided_by: 2 %}
-        {% assign lx = month_offset | plus: half_month %}
+        {% assign mid_span = month_weeks | minus: 1 %}
+        {% assign mid_span_px = mid_span | times: heat_step %}
+        {% assign half_span_px = mid_span_px | divided_by: 2 %}
+        {% assign half_box = heat_box | divided_by: 2 %}
+        {% assign lx = month_offset | plus: half_span_px | plus: half_box %}
         <text class="month-label" x="{{ lx }}" y="{{ label_y }}" text-anchor="middle">{{ m }}</text>
       {% endfor %}
     </g>
