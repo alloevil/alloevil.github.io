@@ -59,18 +59,23 @@ title: 首页
 {% if year_max == 0 %}{% assign year_max = 1 %}{% endif %}
 {% if year_min == 0 %}{% assign year_min = 1 %}{% endif %}
 {% assign range = year_max | minus: year_min %}
-{% if range < 5 %}
-  {% assign r1 = 1 %}{% assign r2 = 2 %}{% assign r3 = 3 %}{% assign r4 = 4 %}
+{% if range < 7 %}
+  {% assign r1 = 1 %}{% assign r2 = 2 %}{% assign r3 = 3 %}{% assign r4 = 4 %}{% assign r5 = 5 %}{% assign r6 = 6 %}
 {% else %}
-  {% assign r1 = range | divided_by: 5 %}
-  {% assign r2 = r1 | times: 2 %}
-  {% assign r3 = r1 | times: 3 %}
-  {% assign r4 = r1 | times: 4 %}
+  {% assign step = range | divided_by: 7 %}
+  {% assign r1 = step %}
+  {% assign r2 = step | times: 2 %}
+  {% assign r3 = step | times: 3 %}
+  {% assign r4 = step | times: 4 %}
+  {% assign r5 = step | times: 5 %}
+  {% assign r6 = step | times: 6 %}
 {% endif %}
 {% assign t1 = year_min | plus: r1 %}
 {% assign t2 = year_min | plus: r2 %}
 {% assign t3 = year_min | plus: r3 %}
 {% assign t4 = year_min | plus: r4 %}
+{% assign t5 = year_min | plus: r5 %}
+{% assign t6 = year_min | plus: r6 %}
 
 {% assign heat_box = 12 %}
 {% assign heat_gap = 2 %}
@@ -118,11 +123,13 @@ title: 首页
             {% endif %}
           {% endfor %}
           {% assign fill = "#ebedf0" %}
-          {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#c6e48b" %}{% endif %}
-          {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#a5d76e" %}{% endif %}
-          {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#7bc96f" %}{% endif %}
-          {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#239a3b" %}{% endif %}
-          {% if day_total > t4 %}{% assign fill = "#196127" %}{% endif %}
+          {% if day_total > 0 and day_total <= t1 %}{% assign fill = "#e6f5c9" %}{% endif %}
+          {% if day_total > t1 and day_total <= t2 %}{% assign fill = "#c6e48b" %}{% endif %}
+          {% if day_total > t2 and day_total <= t3 %}{% assign fill = "#a5d76e" %}{% endif %}
+          {% if day_total > t3 and day_total <= t4 %}{% assign fill = "#8ac55e" %}{% endif %}
+          {% if day_total > t4 and day_total <= t5 %}{% assign fill = "#7bc96f" %}{% endif %}
+          {% if day_total > t5 and day_total <= t6 %}{% assign fill = "#2ca244" %}{% endif %}
+          {% if day_total > t6 %}{% assign fill = "#196127" %}{% endif %}
           <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
         {% endif %}
       {% endfor %}
