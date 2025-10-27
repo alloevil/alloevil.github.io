@@ -94,7 +94,9 @@ title: 首页
       {% assign first_day = month_str | append: "-01" %}
       {% assign first_w = first_day | date: "%w" | plus: 0 %}
       {% assign m_index = m | minus: 1 %}
-      {% assign month_offset = heat_left | plus: month_width | times: m_index | plus: month_gap | times: m_index %}
+      {% assign mw = month_width | times: m_index %}
+      {% assign mg = month_gap | times: m_index %}
+      {% assign month_offset = heat_left | plus: mw | plus: mg %}
       {% for i in (1..31) %}
         {% assign dd = i %}{% if i < 10 %}{% assign dd = "0" | append: i %}{% endif %}
         {% assign day_date = month_str | append: "-" | append: dd %}
