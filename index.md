@@ -82,7 +82,9 @@ title: 首页
 {% assign heat_top = 10 %}
 {% assign heat_bottom = 10 %}
 {% assign month_width = month_weeks | times: heat_step %}
-{% assign heat_w = heat_left | plus: 12 | times: month_width | plus: 11 | times: month_gap | plus: heat_right %}
+{% assign heat_w = 12 | times: month_width %}
+{% assign gaps_w = 11 | times: month_gap %}
+{% assign heat_w = heat_w | plus: gaps_w | plus: heat_left | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
 <svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ heat_top }})">
