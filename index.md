@@ -86,9 +86,10 @@ title: 首页
 {% assign gaps_w = 11 | times: month_gap %}
 {% assign heat_w = heat_w | plus: gaps_w | plus: heat_left | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
-<svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom }}" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(0, {{ heat_top }})">
-    {% for m in (1..12) %}
+<div class="heatmap-scroll">
+  <svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom | plus: 24 }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom | plus: 24 }}" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0, {{ heat_top }})">
+      {% for m in (1..12) %}
       {% assign mm = m %}{% if m < 10 %}{% assign mm = "0" | append: m %}{% endif %}
       {% assign month_str = year | append: "-" | append: mm %}
       {% assign first_day = month_str | append: "-01" %}
@@ -124,9 +125,17 @@ title: 首页
           <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
         {% endif %}
       {% endfor %}
-    {% endfor %}
-  </g>
-</svg>
+      {% assign label_y = heat_h | plus: 16 %}
+      {% for m in (1..12) %}
+        {% assign m_index = m | minus: 1 %}
+        {% assign mw = month_width | times: m_index %}
+        {% assign mg = month_gap | times: m_index %}
+        {% assign lx = heat_left | plus: mw | plus: mg | plus: month_width | divided_by: 2 %}
+        <text class="month-label" x="{{ lx }}" y="{{ label_y }}" text-anchor="middle">{{ m }}</text>
+      {% endfor %}
+    </g>
+  </svg>
+</div>
 {% assign first_day = month | append: "-01" %}
 {% assign first_w = first_day | date: "%w" | plus: 0 %}
 {% assign heat_box = 12 %}

@@ -43,3 +43,12 @@ svg .dot {
   fill: #1976d2;
 }
 
+.heatmap-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+svg .month-label {
+  fill: #777;
+  font-size: 11px;
+}
+
