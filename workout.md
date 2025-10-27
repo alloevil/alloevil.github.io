@@ -69,7 +69,9 @@ permalink: /workout/
 {% assign heat_top = 10 %}
 {% assign heat_bottom = 10 %}
 {% assign month_width = month_weeks | times: heat_step %}
-{% assign heat_w = heat_left | plus: 12 | times: month_width | plus: 11 | times: month_gap | plus: heat_right %}
+{% assign mw_total = month_width | times: 12 %}
+{% assign mg_total = month_gap | times: 11 %}
+{% assign heat_w = heat_left | plus: mw_total | plus: mg_total | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
 <div class="heatmap-scroll">
   <svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom | plus: 24 }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom | plus: 24 }}" xmlns="http://www.w3.org/2000/svg">
