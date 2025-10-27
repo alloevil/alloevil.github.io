@@ -106,7 +106,8 @@ title: 首页
           {% assign dow = day_date | date: "%w" | plus: 0 %}
           {% assign col_base = i | minus: 1 | plus: first_w %}
           {% assign col = col_base | divided_by: 7 %}
-          {% assign x = month_offset | plus: col | times: heat_step %}
+          {% assign col_px = col | times: heat_step %}
+          {% assign x = month_offset | plus: col_px %}
           {% assign y = dow | times: heat_step %}
           {% assign day_total = 0 %}
           {% for e in entries_sorted %}

@@ -82,7 +82,9 @@ permalink: /workout/
       {% assign first_day = month_str | append: "-01" %}
       {% assign first_w = first_day | date: "%w" | plus: 0 %}
       {% assign m_index = m | minus: 1 %}
-      {% assign month_offset = heat_left | plus: month_width | times: m_index | plus: month_gap | times: m_index %}
+      {% assign mw = month_width | times: m_index %}
+      {% assign mg = month_gap | times: m_index %}
+      {% assign month_offset = heat_left | plus: mw | plus: mg %}
       {% for i in (1..31) %}
         {% assign dd = i %}{% if i < 10 %}{% assign dd = "0" | append: i %}{% endif %}
         {% assign day_date = month_str | append: "-" | append: dd %}
@@ -91,7 +93,8 @@ permalink: /workout/
           {% assign dow = day_date | date: "%w" | plus: 0 %}
           {% assign col_base = i | minus: 1 | plus: first_w %}
           {% assign col = col_base | divided_by: 7 %}
-          {% assign x = month_offset | plus: col | times: heat_step %}
+          {% assign col_px = col | times: heat_step %}
+          {% assign x = month_offset | plus: col_px %}
           {% assign y = dow | times: heat_step %}
           {% assign day_total = 0 %}
           {% for e in entries_sorted %}
