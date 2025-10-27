@@ -42,13 +42,30 @@ permalink: /workout/
 {% assign heat_bottom = 10 %}
 {% assign heat_w = heat_left | plus: heat_weeks | times: heat_step | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
-{% assign avg = month_total | divided_by: days %}
-{% assign stepv = avg | divided_by: 2 %}
-{% assign step2 = avg %}
-{% assign step3 = avg | times: 1.5 %}
-{% if stepv < 1 %}{% assign stepv = 1 %}{% endif %}
-{% if step2 < 2 %}{% assign step2 = 2 %}{% endif %}
-{% if step3 < 3 %}{% assign step3 = 3 %}{% endif %}
+{% assign min_total = max_total %}
+{% for e in entries_sorted %}
+  {% assign d = e.date | slice: 0, 7 %}
+  {% if d == month %}
+    {% assign am_t = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_t = am_t | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_t = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_t = pm_t | plus: r %}{% endfor %}{% endif %}
+    {% assign day_t = am_t | plus: pm_t %}
+    {% if day_t > 0 and day_t < min_total %}{% assign min_total = day_t %}{% endif %}
+  {% endif %}
+{% endfor %}
+{% if min_total == 0 %}{% assign min_total = 1 %}{% endif %}
+{% assign range = max_total | minus: min_total %}
+{% if range < 5 %}
+  {% assign r1 = 1 %}{% assign r2 = 2 %}{% assign r3 = 3 %}{% assign r4 = 4 %}
+{% else %}
+  {% assign r1 = range | divided_by: 5 %}
+  {% assign r2 = r1 | times: 2 %}
+  {% assign r3 = r1 | times: 3 %}
+  {% assign r4 = r1 | times: 4 %}
+{% endif %}
+{% assign t1 = min_total | plus: r1 %}
+{% assign t2 = min_total | plus: r2 %}
+{% assign t3 = min_total | plus: r3 %}
+{% assign t4 = min_total | plus: r4 %}
 <svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ heat_top }})">
     {% for i in (1..31) %}
