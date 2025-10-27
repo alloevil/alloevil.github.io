@@ -55,8 +55,13 @@ title: 首页
 {% assign heat_bottom = 10 %}
 {% assign heat_w = heat_left | plus: heat_weeks | times: heat_step | plus: heat_right %}
 {% assign heat_h = 7 | times: heat_step %}
-{% assign stepv = max_total | divided_by: 4 %}{% if stepv == 0 %}{% assign stepv = 1 %}{% endif %}
-{% assign step2 = stepv | times: 2 %}{% assign step3 = stepv | times: 3 %}
+{% assign avg = month_total | divided_by: days %}
+{% assign stepv = avg | divided_by: 2 %}
+{% assign step2 = avg %}
+{% assign step3 = avg | times: 1.5 %}
+{% if stepv < 1 %}{% assign stepv = 1 %}{% endif %}
+{% if step2 < 2 %}{% assign step2 = 2 %}{% endif %}
+{% if step3 < 3 %}{% assign step3 = 3 %}{% endif %}
 <svg width="{{ heat_w }}" height="{{ heat_h | plus: heat_top | plus: heat_bottom }}" viewBox="0 0 {{ heat_w }} {{ heat_h | plus: heat_top | plus: heat_bottom }}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, {{ heat_top }})">
     {% for i in (1..31) %}
@@ -79,9 +84,10 @@ title: 首页
         {% endfor %}
         {% assign fill = "#ebedf0" %}
         {% if day_total > 0 and day_total <= stepv %}{% assign fill = "#c6e48b" %}{% endif %}
-        {% if day_total > stepv and day_total <= step2 %}{% assign fill = "#7bc96f" %}{% endif %}
-        {% if day_total > step2 and day_total <= step3 %}{% assign fill = "#239a3b" %}{% endif %}
-        {% if day_total > step3 %}{% assign fill = "#196127" %}{% endif %}
+        {% if day_total > stepv and day_total <= step2 %}{% assign fill = "#a5d76e" %}{% endif %}
+        {% if day_total > step2 and day_total <= step3 %}{% assign fill = "#7bc96f" %}{% endif %}
+        {% if day_total > step3 and day_total <= avg | times: 2 %}{% assign fill = "#239a3b" %}{% endif %}
+        {% if day_total > avg | times: 2 %}{% assign fill = "#196127" %}{% endif %}
         <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
       {% endif %}
     {% endfor %}
