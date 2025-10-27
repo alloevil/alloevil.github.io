@@ -110,6 +110,7 @@ permalink: /workout/
           <rect x="{{ x }}" y="{{ y }}" width="{{ heat_box }}" height="{{ heat_box }}" rx="2" ry="2" fill="{{ fill }}"><title>{{ day_date }}: {{ day_total }} 次</title></rect>
         {% endif %}
       {% endfor %}
+      {% endfor %}
       {% assign label_y = heat_h | plus: 16 %}
       {% for m in (1..12) %}
         {% assign m_index = m | minus: 1 %}
