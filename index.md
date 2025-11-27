@@ -170,12 +170,5 @@ title: 首页
 
 <hr class="section-sep" />
 
-## 文章
-{% assign posts_list = site.posts | slice: 0, 10 %}
-<ul>
-{% for p in posts_list %}
-  <li><a href="{{ p.url }}">{{ p.title }}</a> <small>· {{ p.date | date: "%Y-%m-%d" }}</small></li>
-{% endfor %}
-</ul>
 
 更多文章见：[文章](/blog/)
