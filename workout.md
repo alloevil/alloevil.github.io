@@ -9,6 +9,7 @@ permalink: /workout/
 {% assign entries_sorted = entries | sort: "date" %}
 
 {% assign days = 0 %}
+{% assign checkin_days = 0 %}
 {% assign month_total = 0 %}
 {% assign am_month = 0 %}
 {% assign pm_month = 0 %}
@@ -20,13 +21,14 @@ permalink: /workout/
     {% assign am_total = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_total = am_total | plus: r %}{% endfor %}{% endif %}
     {% assign pm_total = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_total = pm_total | plus: r %}{% endfor %}{% endif %}
     {% assign day_total = am_total | plus: pm_total %}
+    {% if day_total > 0 %}{% assign checkin_days = checkin_days | plus: 1 %}{% endif %}
     {% assign month_total = month_total | plus: day_total %}
     {% assign am_month = am_month | plus: am_total %}
     {% assign pm_month = pm_month | plus: pm_total %}
   {% endif %}
 {% endfor %}
 
-- 本月打卡天数：{{ days }}
+- 本月打卡天数：{{ checkin_days }}
 - 本月总俯卧撑：{{ month_total }} 次（早：{{ am_month }} · 晚：{{ pm_month }}）
 
 ### 全年热力图
