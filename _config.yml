@@ -14,6 +14,8 @@ plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
   - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 # 分页设置
 paginate: 5
