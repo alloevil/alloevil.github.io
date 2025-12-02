@@ -31,6 +31,24 @@ permalink: /workout/
 - 本月打卡天数：{{ checkin_days }}
 - 本月总俯卧撑：{{ month_total }} 次（早：{{ am_month }} · 晚：{{ pm_month }}）
 
+{% assign year = site.time | date: "%Y" %}
+{% assign year_checkin_days = 0 %}{% assign year_total = 0 %}{% assign am_year = 0 %}{% assign pm_year = 0 %}
+{% for e in entries_sorted %}
+  {% assign y = e.date | slice: 0, 4 %}
+  {% if y == year %}
+    {% assign am_t = 0 %}{% if e.am %}{% for r in e.am %}{% assign am_t = am_t | plus: r %}{% endfor %}{% endif %}
+    {% assign pm_t = 0 %}{% if e.pm %}{% for r in e.pm %}{% assign pm_t = pm_t | plus: r %}{% endfor %}{% endif %}
+    {% assign day_t = am_t | plus: pm_t %}
+    {% if day_t > 0 %}{% assign year_checkin_days = year_checkin_days | plus: 1 %}{% endif %}
+    {% assign year_total = year_total | plus: day_t %}
+    {% assign am_year = am_year | plus: am_t %}
+    {% assign pm_year = pm_year | plus: pm_t %}
+  {% endif %}
+{% endfor %}
+
+- 全年打卡天数：{{ year_checkin_days }}
+- 全年总俯卧撑：{{ year_total }} 次（早：{{ am_year }} · 晚：{{ pm_year }}）
+
 ### 全年热力图
 {% assign year = site.time | date: "%Y" %}
 {% assign year_max = 0 %}{% assign year_min = 0 %}
