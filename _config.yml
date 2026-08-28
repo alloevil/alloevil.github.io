@@ -1,6 +1,7 @@
 # 站点基本信息
 title: "Cyber's Blog"
-description: "record"
+description: "AI Agent 构建者 / LLM 工程师的技术博客：agentic coding、agent harness 评测、LLM 工程实践与健身记录。Blog on AI agents, LLM engineering and agentic coding."
+url: "https://alloevil.github.io"
 locale: "zh-CN"
 
 # 皮肤样式（Minimal Mistakes 内置的配色方案）
