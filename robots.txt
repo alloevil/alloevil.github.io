@@ -2,3 +2,15 @@ User-agent: *
 Allow: /
 
 Sitemap: https://alloevil.github.io/sitemap.xml
+Sitemap: https://alloevil.github.io/codeblast/sitemap.xml
+Sitemap: https://alloevil.github.io/paired-eval/sitemap.xml
+Sitemap: https://alloevil.github.io/AgentXRay/sitemap.xml
+Sitemap: https://alloevil.github.io/agent-harness-evals/sitemap.xml
+Sitemap: https://alloevil.github.io/llm-benchmarks-tracker/sitemap.xml
+Sitemap: https://alloevil.github.io/coding-agent-internals/sitemap.xml
+Sitemap: https://alloevil.github.io/agents-with-receipts/sitemap.xml
+Sitemap: https://alloevil.github.io/deepresearch-arms-lab/sitemap.xml
+Sitemap: https://alloevil.github.io/agent-changelog/sitemap.xml
+Sitemap: https://alloevil.github.io/AI-Paper-Daily/sitemap.xml
+Sitemap: https://alloevil.github.io/github-discovery/sitemap.xml
+Sitemap: https://alloevil.github.io/foodmap/sitemap.xml

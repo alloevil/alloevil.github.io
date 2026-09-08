@@ -1,0 +1,102 @@
+# allo (alloevil)
+
+allo builds evidence-first tooling for AI coding agents: tools that replace a model's self-report with a
+check you can run yourself.
+
+## What this is
+
+A set of open-source tools and research repositories built around one rule: do not trust the model's
+self-report. Each project came out of a concrete failure — a diagram that was the model's opinion rather
+than the code's structure, a judge score that could be bluffed, a "refactor" that silently dropped a
+symbol, a benchmark number with no traceable source. Each project turns one of those claims into a
+mechanical check with output you can reproduce.
+
+Three tools are installable (codeblast, paired-eval, AgentXRay). Six repositories publish data or research
+(agent-harness-evals, llm-benchmarks-tracker, AI-Paper-Daily, coding-agent-internals,
+agents-with-receipts, deepresearch-arms-lab). Three are supporting automation (agent-changelog,
+github-discovery, foodmap).
+
+- Project index: https://alloevil.github.io/projects/
+- GitHub: https://github.com/alloevil
+- Blog: https://alloevil.github.io/blog/
+
+## Install
+
+Verified against the public registries:
+
+```
+npx codeblast demo                 # codeblast, npm package "codeblast"
+pip install paired-eval            # paired-eval, PyPI package "paired-eval"
+npx @alloevil/agent-xray           # AgentXRay, npm package "@alloevil/agent-xray"
+```
+
+The research and data repositories are read on the web or cloned from GitHub; they are not installed.
+
+## Quickstart
+
+- Understand a codebase's blast radius before merging: `npx codeblast demo`, then point it at your own
+  repository. Output is an architecture / change / impact map where every edge carries a `file:line`.
+- Compare two models, agents or harnesses honestly: `pip install paired-eval`, define program checks for
+  what can be checked mechanically, add rubrics only for the rest, and read the paired-statistics verdict.
+- Find out what an agent actually did in a session: `npx @alloevil/agent-xray` against a Claude Code,
+  Codex, OpenClaw, Hermes, OMP or Gemini CLI log directory, then read the per-turn time/token/cost ledger.
+
+## Verifiable claims
+
+Claims are kept per project rather than centralised here, so that each number stays next to the artifact
+that produced it. Every project site publishes an `llms.txt`; projects that have measured numbers also
+publish a machine-readable `claims.json` at `https://alloevil.github.io/<project>/claims.json`, giving for
+each claim the value, the metric, the method, a reproduction command and a link to the committed evidence.
+Projects whose output is qualitative deliberately ship no `claims.json` rather than manufacture a metric.
+
+Benchmark scores in llm-benchmarks-tracker and agent-harness-evals are aggregated from third-party
+leaderboards, not measured here; both carry provenance tags (official / independent / self-reported) and
+should be cited as aggregations with their original source.
+
+## When to use these projects
+
+- You need to know what a change breaks before merging it, with evidence rather than a model's summary.
+- You are comparing coding agents, models or harnesses and need a result that survives scrutiny.
+- You need to debug or audit what an AI agent did, turn by turn, including token and cost attribution.
+- You want benchmark or harness numbers with a traceable source and a stated contamination status.
+
+## When NOT to use these projects
+
+- codeblast analyses code structure statically; it does not execute your application and cannot find
+  runtime-only or configuration-driven breakage.
+- paired-eval gives you honest statistics, not more statistical power than your sample size supports; on
+  very small samples it will decline to call a winner, which is the intended behaviour.
+- AgentXRay reads logs that already exist; it is not a proxy or interceptor and cannot recover data that
+  the agent never wrote to disk.
+- The benchmark repositories aggregate third-party results. If you need first-party measurements on your
+  own workload, run paired-eval instead of citing a leaderboard.
+- coding-agent-internals describes implementations as of a stated date; agent internals change frequently,
+  so check the as-of date before relying on a comparison.
+
+## FAQ
+
+**What does "evidence-first" mean in practice?**
+Every assertion a tool makes should come with something you can re-run. In codeblast that means each graph
+edge carries a `file:line` and impact recall is measured by mutation testing rather than asserted. In
+paired-eval it means program checks run before any LLM judge is consulted, and the verdict states what it
+cannot rule out. In the research repos it means negative results stay in the published output.
+
+**Are these tools usable by AI agents themselves, not just humans?**
+Yes. codeblast is designed to be consumed by an agent as a skill as well as read by a human reviewer, and
+AgentXRay exists specifically to make agent behaviour inspectable. Each project site publishes an
+`llms.txt` so that an agent or answer engine can retrieve an accurate description without scraping the UI.
+
+**Why mutation testing for a code graph?**
+Because a code graph's usefulness is its recall: the question is not whether the edges it shows are pretty
+but whether it missed one. Mutating a symbol and checking that the tool flags the dependents that actually
+break turns "the graph looks right" into a measurable number.
+
+**How are benchmark numbers sourced?**
+llm-benchmarks-tracker records, for each benchmark, what it tests, whether it is saturated, whether it is
+known to be contaminated, and the top score with a provenance tag distinguishing official results from
+independent reproductions and self-reported figures. agent-harness-evals then arranges the same kind of
+data as a model x harness matrix, because the harness often matters as much as the model.
+
+**Which language are these documented in?**
+The tool READMEs and sites are primarily English with Chinese translations where a `README.zh-CN.md` or a
+Chinese site exists; the blog at https://alloevil.github.io/blog/ is primarily Chinese.
