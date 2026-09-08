@@ -4,6 +4,16 @@ description: "AI Agent 构建者 / LLM 工程师的技术博客：agentic coding
 url: "https://alloevil.github.io"
 locale: "zh-CN"
 
+# 站长平台所有权验证。
+# minimal-mistakes 的 _includes/seo.html 会读这两个键并输出对应 meta 标签
+# （google -> <meta name="google-site-verification">，bing -> <meta name="msvalidate.01">）。
+# 用法：在 Search Console 选「网址前缀」属性、输入 https://alloevil.github.io/，
+# 选「HTML 标记」验证方式，把它给的 content 值粘到下面等号后面，推送、等 Pages 部署完再点验证。
+# 注意 github.io 在 Public Suffix List 上，所以 alloevil.github.io 算独立站点，
+# 这一个属性就覆盖全部 12 个 /项目名/ 子路径，不需要逐个验证。
+google_site_verification:
+bing_site_verification:
+
 # 皮肤样式（Minimal Mistakes 内置的配色方案）
 minimal_mistakes_skin: "sunrise"
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://alloevil.github.io/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/codeblast/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/paired-eval/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/AgentXRay/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/agent-harness-evals/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/llm-benchmarks-tracker/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/coding-agent-internals/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/agents-with-receipts/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/deepresearch-arms-lab/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/agent-changelog/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/AI-Paper-Daily/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/github-discovery/sitemap.xml</loc></sitemap>
+  <sitemap><loc>https://alloevil.github.io/foodmap/sitemap.xml</loc></sitemap>
+</sitemapindex>

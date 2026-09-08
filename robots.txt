@@ -4,6 +4,12 @@ Allow: /
 # draft and agent-changelog's internal skills/ doc) are no longer published at all,
 # so they now return 404 and blocking them would only slow their removal from indexes.
 
+# sitemap-index.xml is a sitemap index covering all 13 sitemaps below. Submitting that
+# ONE url to Search Console / Bing Webmaster Tools covers every project site and gives
+# per-child reporting. The individual lines are kept as a fallback for any crawler that
+# does not follow a sitemap index; declaring the same sitemap twice is allowed.
+Sitemap: https://alloevil.github.io/sitemap-index.xml
+
 Sitemap: https://alloevil.github.io/sitemap.xml
 Sitemap: https://alloevil.github.io/codeblast/sitemap.xml
 Sitemap: https://alloevil.github.io/paired-eval/sitemap.xml
