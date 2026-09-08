@@ -11,7 +11,7 @@ locale: "zh-CN"
 # 选「HTML 标记」验证方式，把它给的 content 值粘到下面等号后面，推送、等 Pages 部署完再点验证。
 # 注意 github.io 在 Public Suffix List 上，所以 alloevil.github.io 算独立站点，
 # 这一个属性就覆盖全部 12 个 /项目名/ 子路径，不需要逐个验证。
-google_site_verification:
+google_site_verification: "zgsuj4XLBRA6G8lo1bl6V4JWdGS9t0R26TxxGdI1QH8"
 bing_site_verification:
 
 # 皮肤样式（Minimal Mistakes 内置的配色方案）
