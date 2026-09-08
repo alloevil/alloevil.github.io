@@ -3,5 +3,7 @@ main:
     url: /
   - title: 训练
     url: /workout/
+  - title: 项目
+    url: /projects/
   - title: 博客
     url: /blog/
