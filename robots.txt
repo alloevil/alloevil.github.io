@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /codeblast/LAUNCH.md
-Disallow: /codeblast/LAUNCH.html
-Disallow: /agent-changelog/skills/
+# No Disallow entries: the two paths previously blocked here (an unpublished codeblast
+# draft and agent-changelog's internal skills/ doc) are no longer published at all,
+# so they now return 404 and blocking them would only slow their removal from indexes.
 
 Sitemap: https://alloevil.github.io/sitemap.xml
 Sitemap: https://alloevil.github.io/codeblast/sitemap.xml
