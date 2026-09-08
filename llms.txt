@@ -19,7 +19,7 @@ Site: https://alloevil.github.io/ · GitHub: https://github.com/alloevil · Proj
 
 - [agent-harness-evals](https://alloevil.github.io/agent-harness-evals/): The model x agent-harness matrix that model leaderboards omit — one schema over live leaderboard sources. Source: https://github.com/alloevil/agent-harness-evals
 - [llm-benchmarks-tracker](https://alloevil.github.io/llm-benchmarks-tracker/): Sourced, schema-validated catalogue of LLM and agent benchmarks: what each tests, saturation and contamination status, and top scores tagged official / independent / self-reported. Ships a JSON API. Source: https://github.com/alloevil/llm-benchmarks-tracker
-- [AI-Paper-Daily](https://alloevil.github.io/AI-Paper-Daily/): Automated daily and weekly paper digests for AI agents, RAG and knowledge graphs, aggregated from arXiv, HuggingFace and Papers With Code. Source: https://github.com/alloevil/AI-Paper-Daily
+- [AI-Paper-Daily](https://alloevil.github.io/AI-Paper-Daily/): Automated daily and weekly paper digests for AI agents, RAG and knowledge graphs, aggregated from arXiv and HuggingFace Daily Papers and LLM-filtered. Source: https://github.com/alloevil/AI-Paper-Daily
 
 ## Research
 

@@ -62,7 +62,7 @@ AI agent 会话日志的可视化面板，支持 Claude Code、Codex、OpenClaw�
 
 ### AI-Paper-Daily — 每日论文发现
 
-面向 AI Agent、RAG、知识图谱方向的每日论文追踪，数据来自 arXiv、HuggingFace 与 Papers With Code，自动生成日报与周报。
+面向 AI Agent、RAG、知识图谱方向的每日论文追踪，数据来自 arXiv 与 HuggingFace Daily Papers（经 LLM 筛选），自动生成日报与周报。
 
 - 站点：<https://alloevil.github.io/AI-Paper-Daily/>
 - 仓库：[alloevil/AI-Paper-Daily](https://github.com/alloevil/AI-Paper-Daily)

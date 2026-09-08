@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /codeblast/LAUNCH.md
 Disallow: /codeblast/LAUNCH.html
+Disallow: /agent-changelog/skills/
 
 Sitemap: https://alloevil.github.io/sitemap.xml
 Sitemap: https://alloevil.github.io/codeblast/sitemap.xml
