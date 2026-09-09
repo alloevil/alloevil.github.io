@@ -32,4 +32,11 @@ Site: https://alloevil.github.io/ · GitHub: https://github.com/alloevil · Proj
 - [agent-changelog](https://alloevil.github.io/agent-changelog/): Unofficial changelog tracker synced from upstream AI agent framework releases (OpenClaw, Hermes).
 - [github-discovery](https://alloevil.github.io/github-discovery/): Finds trending GitHub repositories early from six data sources with scoring and anti-spam, delivered as a daily digest.
 - [foodmap](https://alloevil.github.io/foodmap/): Visualises restaurants recommended by food bloggers on a map, extracting and geocoding venues from posts.
+
+## Apps and tools (no standalone site)
+
+- [weibo-chat-auto](https://github.com/alloevil/weibo-chat-auto): Native desktop app (Tauri + Rust + Node.js) plus a local viewer that archives Weibo group-chat messages, with AI daily summaries and agentic Q&A; self-hosted, data stays local.
+- [dsh-xray](https://github.com/alloevil/dsh-xray): Diagnostics for a DeepSeek Harness setup — context-tax attribution, entry inspection, dependency cascades. Install `npx dsh-xray`, npm package `dsh-xray`.
+- [agent-tool-benchmark](https://github.com/alloevil/agent-tool-benchmark): Hands-on, reproducible benchmarks of AI agent tooling — same machine, same tasks, scripts published in full.
+- [TabCraft](https://github.com/alloevil/TabCraft): AI-powered Chrome tab organizer that auto-groups by topic, hibernates inactive tabs and removes duplicates, using on-device Gemini Nano; no data leaves the browser.
 - [llms-full.txt](https://alloevil.github.io/llms-full.txt): Expanded version of this file with install commands, verifiable claims and FAQ.

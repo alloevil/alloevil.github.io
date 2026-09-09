@@ -117,6 +117,39 @@ AI agent 会话日志的可视化面板，支持 Claude Code、Codex、OpenClaw�
 - 站点：<https://alloevil.github.io/foodmap/>
 - 仓库：[alloevil/foodmap](https://github.com/alloevil/foodmap)
 
+## 应用与工具（无独立站点）
+
+以下项目没有独立的展示站点，直接托管在 GitHub 与包管理器上。
+
+### weibo-chat-auto — 微博群聊自动归档
+
+原生桌面应用（应用内扫码登录）+ 本地可视化查看器，把微博群聊消息自动归档，含 AI 每日摘要与 Agentic 问答。Tauri + Rust + Node.js，自托管，数据留在本地。
+
+- 仓库：[alloevil/weibo-chat-auto](https://github.com/alloevil/weibo-chat-auto)
+- 关键词：weibo、chat archive、desktop app、Tauri、self-hosted、AI summary
+
+### dsh-xray — DeepSeek Harness 的透视工具
+
+给 DeepSeek Harness 做诊断：context 成本归因、条目检查、依赖级联可视化。回答"到底加载了什么、为什么、各占多少 token"。
+
+- 安装：`npx dsh-xray` · npm 包 `dsh-xray`
+- 仓库：[alloevil/dsh-xray](https://github.com/alloevil/dsh-xray)
+- 关键词：DeepSeek Harness、LLM observability、context engineering、token cost
+
+### agent-tool-benchmark — AI agent 工具的实测基准
+
+对 AI agent 工具做动手、可复现的基准：同一台机器、同一批任务、脚本全公开。
+
+- 仓库：[alloevil/agent-tool-benchmark](https://github.com/alloevil/agent-tool-benchmark)
+- 关键词：benchmark、reproducible research、browser automation、LLM agents
+
+### TabCraft — Chrome 标签页 AI 整理插件
+
+AI 驱动的 Chrome 标签管理：按主题自动分组、休眠不活跃标签、去重。100% 本地、设备端 AI（Gemini Nano），不上传数据。
+
+- 仓库：[alloevil/TabCraft](https://github.com/alloevil/TabCraft)
+- 关键词：Chrome extension、tab manager、Gemini Nano、on-device AI、productivity
+
 ## 给 LLM / AI 检索用
 
 机器可读的项目概览见 [llms.txt](/llms.txt)，完整版见 [llms-full.txt](/llms-full.txt)。
