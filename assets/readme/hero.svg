@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="cbTitle cbDesc">
+  <title id="cbTitle">Cyber's Blog — a technical blog by allo</title>
+  <desc id="cbDesc">A Jekyll blog on AI agents, LLM engineering and agentic coding, with a training log and a project index. Four sections (home, workout, projects, blog), four posts, and machine-readable endpoints for LLM crawlers.</desc>
+
+  <rect width="1200" height="320" rx="18" fill="#e8d5b7"/>
+  <rect x="0.5" y="0.5" width="1199" height="319" rx="17.5" fill="none" stroke="#0e2431" stroke-opacity="0.18"/>
+
+  <g transform="translate(56 52)">
+    <text x="0" y="0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0e2431" fill-opacity="0.72" letter-spacing="2.2">TECHNICAL BLOG · zh-CN</text>
+    <text x="0" y="62" font-family="Georgia, Songti SC, serif" font-size="54" font-weight="700" fill="#0e2431">Cyber&#8217;s Blog</text>
+    <text x="0" y="102" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="21" fill="#0e2431" fill-opacity="0.85">AI Agent 构建者 / LLM 工程师 — agentic coding、harness 评测与 LLM 工程实践</text>
+
+    <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="20">
+      <rect x="0" y="136" width="86" height="38" rx="19" fill="#0e2431"/>
+      <text x="24" y="161" fill="#e8d5b7">首页</text>
+      <rect x="98" y="136" width="86" height="38" rx="19" fill="none" stroke="#0e2431" stroke-opacity="0.35"/>
+      <text x="122" y="161" fill="#0e2431">训练</text>
+      <rect x="196" y="136" width="86" height="38" rx="19" fill="none" stroke="#0e2431" stroke-opacity="0.35"/>
+      <text x="220" y="161" fill="#0e2431">项目</text>
+      <rect x="294" y="136" width="86" height="38" rx="19" fill="none" stroke="#0e2431" stroke-opacity="0.35"/>
+      <text x="318" y="161" fill="#0e2431">博客</text>
+    </g>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0e2431" fill-opacity="0.72">
+      <text x="0" y="220">4 posts · 4 pages · Jekyll + minimal-mistakes (sunrise)</text>
+    </g>
+  </g>
+
+  <g transform="translate(756 52)">
+    <rect x="0" y="0" width="388" height="216" rx="14" fill="#f9b248" fill-opacity="0.28" stroke="#0e2431" stroke-opacity="0.25"/>
+    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#0e2431" fill-opacity="0.72" letter-spacing="1.6">FOR LLM CRAWLERS</text>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" fill="#0e2431">
+      <text x="24" y="80">/llms.txt</text>
+      <text x="24" y="112">/llms-full.txt</text>
+      <text x="24" y="144">/sitemap-index.xml</text>
+      <text x="24" y="176">/robots.txt</text>
+    </g>
+    <circle cx="24" cy="196" r="0"/>
+  </g>
+</svg>
