@@ -1,0 +1,93 @@
+{
+  "project": "alloevil.github.io",
+  "url": "https://alloevil.github.io",
+  "repository": "https://github.com/alloevil/alloevil.github.io",
+  "updated": "2026-09-13",
+  "claims": [
+    {
+      "id": "post-count",
+      "claim": "The site currently publishes 4 posts.",
+      "value": "4 posts",
+      "metric": "files under _posts/",
+      "method": "the README's project table states the post count; the posts are the source of truth",
+      "repro": "ls _posts/*.md | wc -l",
+      "evidence": "_posts/",
+      "as_of": "2026-09-13",
+      "check": {
+        "cmd": "ls _posts/*.md | wc -l | tr -d ' '",
+        "expect": {
+          "equals": "4"
+        },
+        "timeout": 60
+      }
+    },
+    {
+      "id": "page-count",
+      "claim": "The site publishes 4 pages: index, blog, projects and workout.",
+      "value": "4 pages",
+      "metric": "the four site pages the README names (index, blog, projects, workout)",
+      "method": "each named page exists as a tracked Markdown file",
+      "repro": "ls index.md blog.md projects.md workout.md",
+      "evidence": "index.md, blog.md, projects.md, workout.md",
+      "as_of": "2026-09-13",
+      "check": {
+        "cmd": "ls index.md blog.md projects.md workout.md | wc -l | tr -d ' '",
+        "expect": {
+          "equals": "4"
+        },
+        "timeout": 60
+      }
+    },
+    {
+      "id": "navigation-entries",
+      "claim": "The navigation bar lists four entries.",
+      "value": "4 entries",
+      "metric": "titles under `main:` in _data/navigation.yml",
+      "method": "the README describes the nav as the four sections shown on the site",
+      "repro": "grep -c 'title:' _data/navigation.yml",
+      "evidence": "_data/navigation.yml",
+      "as_of": "2026-09-13",
+      "check": {
+        "cmd": "grep -c 'title:' _data/navigation.yml | tr -d ' '",
+        "expect": {
+          "equals": "4"
+        },
+        "timeout": 60
+      }
+    },
+    {
+      "id": "machine-readable-endpoints-exist",
+      "claim": "The README promises machine-readable endpoints for LLM crawlers: llms.txt, llms-full.txt, sitemap-index.xml and robots.txt.",
+      "value": "4 endpoints",
+      "metric": "the four files the README's endpoint table names",
+      "method": "each named file exists in the repository that GitHub Pages serves",
+      "repro": "ls llms.txt llms-full.txt sitemap-index.xml robots.txt",
+      "evidence": "llms.txt",
+      "as_of": "2026-09-13",
+      "check": {
+        "cmd": "ls llms.txt llms-full.txt sitemap-index.xml robots.txt | wc -l | tr -d ' '",
+        "expect": {
+          "equals": "4"
+        },
+        "timeout": 60
+      }
+    },
+    {
+      "id": "llms-txt-is-a-project-summary",
+      "claim": "llms.txt summarises the author's projects (it does not index the posts — the posts are only on the site).",
+      "value": "project summary",
+      "metric": "the file exists and names projects",
+      "method": "read the first heading and check the project names it lists",
+      "repro": "head -1 llms.txt",
+      "evidence": "llms.txt",
+      "as_of": "2026-09-13",
+      "check": {
+        "cmd": "head -1 llms.txt | grep -c 'allo (alloevil)' | tr -d ' '",
+        "expect": {
+          "equals": "1"
+        },
+        "timeout": 60
+      }
+    }
+  ]
+}

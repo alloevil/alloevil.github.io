@@ -1,0 +1,22 @@
+name: claims
+
+# Runs the receipts behind claims.json: the numbers this repository's README publishes (post and
+# page counts, navigation entries, the machine-readable endpoints) must still be recomputed by
+# the commands next to them. Weekly as well as on push, because posts get added without a commit
+# to this file.
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: published numbers still reproduce
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: alloevil/verify-claims@v0.1.1
