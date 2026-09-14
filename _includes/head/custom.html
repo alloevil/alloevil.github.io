@@ -1,0 +1,14 @@
+{%- comment -%}
+  Twitter/X link-preview tags. Minimal Mistakes emits the `og:*` set but no `twitter:*` tags, and
+  this file adds only the fields a preview needs — no account handle is claimed anywhere, because
+  there is no verified handle for this site to name.
+{%- endcomment -%}
+{%- if page.title -%}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ page.title | escape }}">
+{%- if page.description -%}
+<meta name="twitter:description" content="{{ page.description | escape }}">
+{%- elsif site.description -%}
+<meta name="twitter:description" content="{{ site.description | escape }}">
+{%- endif -%}
+{%- endif -%}
