@@ -43,9 +43,7 @@ bundle exec jekyll serve        # → http://127.0.0.1:4000
 
 `_config.yml` 里已配置 Google Search Console 的站点验证值（github.io 在 Public Suffix List 上，因此 `alloevil.github.io` 是一个独立站点属性，覆盖其下全部 `/项目名/` 子路径）。
 
-<p align="center">
-  <a href="https://github.com/oil-oil/beautify-github-readme"><img src="./assets/readme/made-with-beautify.svg" width="300" alt="README made with beautify-github-readme"></a>
-</p>
+
 
 ## License
 
