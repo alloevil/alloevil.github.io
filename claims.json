@@ -2,21 +2,21 @@
   "project": "alloevil.github.io",
   "url": "https://alloevil.github.io",
   "repository": "https://github.com/alloevil/alloevil.github.io",
-  "updated": "2026-09-13",
+  "updated": "2026-10-16",
   "claims": [
     {
       "id": "post-count",
-      "claim": "The site currently publishes 4 posts.",
-      "value": "4 posts",
+      "claim": "The site currently publishes 5 posts.",
+      "value": "5 posts",
       "metric": "files under _posts/",
       "method": "the README's project table states the post count; the posts are the source of truth",
       "repro": "ls _posts/*.md | wc -l",
       "evidence": "_posts/",
-      "as_of": "2026-09-13",
+      "as_of": "2026-10-16",
       "check": {
         "cmd": "ls _posts/*.md | wc -l | tr -d ' '",
         "expect": {
-          "equals": "4"
+          "equals": "5"
         },
         "timeout": 60
       }

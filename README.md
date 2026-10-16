@@ -17,7 +17,7 @@
 | `/projects/` | 作品索引 | [`projects.md`](projects.md) |
 | `/workout/` | 训练记录 | [`workout.md`](workout.md) + [`_data/workouts.yml`](_data/workouts.yml) |
 
-当前 4 篇文章、4 个页面；导航栏在 [`_data/navigation.yml`](_data/navigation.yml) 里配置。
+当前 5 篇文章、4 个页面；导航栏在 [`_data/navigation.yml`](_data/navigation.yml) 里配置。
 
 ## 本地预览
 
