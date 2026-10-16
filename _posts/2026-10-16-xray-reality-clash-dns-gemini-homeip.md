@@ -577,7 +577,7 @@ DNS 修复后，Google 搜索页底部仍然显示：
 Wuhan, Hubei, China — From your IP address
 ```
 
-而常见 IP 数据库将 VPS 判断为美国 Dallas。登录 Gemini 后则提示：
+而常见 IP 数据库将 VPS 判断为美国 Dallas（换 IP 后 ipinfo 显示为 Los Angeles）。登录 Gemini 后则提示：
 
 ```text
 Gemini isn’t currently supported in your country.
@@ -668,11 +668,289 @@ HomeIP 解决的是“目标服务对出口 IP 的地区/信誉要求”，不�
 
 使用第三方出口时也要理解隐私边界：HTTPS 内容仍然加密，但提供商可以看到连接目标和流量元数据。因此我只让 Gemini/Google AI 使用 HomeIP，其余流量继续走自建 VPS。
 
-## 十二、完整排障顺序
+## 十二、服务端链式代理：把住宅 IP 挂在 VPS 后面
+
+### 12.1 为什么在服务端做
+
+客户端方案（在 Clash 里写 `dialer-proxy` 链式节点）也能用，但每台设备都要单独配一遍，iPhone 上的小火箭、家里的路由器还得各写一套。服务端方案只在 VPS 上配一次，所有连到这台 VPS 的客户端（Clash、小火箭、路由器）都自动生效，客户端订阅一行都不用改。
+
+| | 客户端链式（Clash） | 服务端链式（VPS） |
+|---|---|---|
+| 配置次数 | 每台设备一次 | 一次 |
+| 覆盖范围 | 只有配了的设备 | 全部设备 |
+| 住宅 IP 凭据 | 分散在每个客户端 | 只存在 VPS 上 |
+| 灵活度 | 每台设备可以不同 | 所有设备规则统一 |
+
+流量路径：`客户端 → VPS（Reality / Hysteria2）→ 住宅 IP（SOCKS5）→ Google / AI 网站`，其他流量照旧 `客户端 → VPS → 直出`。
+
+### 12.2 先确认住宅代理的协议
+
+在 VPS 上分别用 SOCKS5 和 HTTP 测一下，哪个有返回就用哪个：
+
+```bash
+curl -s -m 15 -x socks5h://<RESI_USER>:<RESI_PASS>@<RESI_HOST>:<RESI_PORT> https://ipinfo.io/json
+curl -s -m 15 -x http://<RESI_USER>:<RESI_PASS>@<RESI_HOST>:<RESI_PORT>    https://ipinfo.io/json
+```
+
+我这家只有 SOCKS5 有返回，`ip` 是住宅 IP，`city` 是 Mesa, Arizona。
+
+### 12.3 xray：加一个 resi outbound
+
+`/usr/local/etc/xray/config.json` 的 `outbounds` 里加一个 tag 为 `resi` 的出站，`direct` 仍然放在第一个，作为默认出口：
+
+```json
+"outbounds": [
+  { "tag": "direct",  "protocol": "freedom" },
+  { "tag": "blocked", "protocol": "blackhole" },
+  {
+    "tag": "resi",
+    "protocol": "socks",
+    "settings": {
+      "servers": [{
+        "address": "<RESI_HOST>",
+        "port": <RESI_PORT>,
+        "users": [{ "user": "<RESI_USER>", "pass": "<RESI_PASS>" }]
+      }]
+    }
+  },
+  { "tag": "block", "protocol": "blackhole" }
+]
+```
+
+`routing.rules` 里按域名把 Google 和 AI 网站分到 `resi`（YouTube 规则见下一节，必须放在它前面）：
+
+```json
+{
+  "type": "field",
+  "domain": [
+    "domain:google.com", "domain:googleapis.com", "domain:gstatic.com",
+    "domain:googleusercontent.com", "domain:gmail.com", "domain:google.dev",
+    "domain:openai.com", "domain:chatgpt.com", "domain:oaistatic.com", "domain:oaiusercontent.com",
+    "domain:anthropic.com", "domain:claude.ai", "domain:claude.com",
+    "domain:ipinfo.io"
+  ],
+  "outboundTag": "resi"
+}
+```
+
+`ipinfo.io` 是故意加进去的，方便验证。改完先测再重启：
+
+```bash
+xray run -test -c /usr/local/etc/xray/config.json
+systemctl restart xray && systemctl is-active xray
+```
+
+### 12.4 Hysteria2：outbounds + ACL
+
+`/etc/hysteria/config.yaml` 末尾追加：
+
+```yaml
+outbounds:
+  - name: direct
+    type: direct
+  - name: resi
+    type: socks5
+    socks5:
+      addr: <RESI_HOST>:<RESI_PORT>
+      username: <RESI_USER>
+      password: <RESI_PASS>
+acl:
+  inline:
+    - direct(suffix:youtube.com)
+    # ……其他 YouTube 域名，见下一节
+    - resi(suffix:google.com)
+    - resi(suffix:googleapis.com)
+    # ……与 xray 相同的域名列表
+    - resi(suffix:ipinfo.io)
+    - direct(all)
+```
+
+ACL 从上往下匹配，第一条命中就结束，所以最后一定要有 `direct(all)` 兜底。
+
+```bash
+systemctl restart hysteria-server && systemctl is-active hysteria-server
+```
+
+### 12.5 验证
+
+在客户端（或者本地起一个 xray 客户端开 socks 端口）分别访问：
+
+```bash
+curl -s -x socks5h://127.0.0.1:<LOCAL_PORT> https://ipinfo.io/json   # 应显示住宅 IP，city 为住宅 IP 所在地
+curl -s -x socks5h://127.0.0.1:<LOCAL_PORT> https://api.ipify.org    # 应显示 <VPS_IP>
+curl -s -o /dev/null -w '%{http_code}\n' -x socks5h://127.0.0.1:<LOCAL_PORT> https://www.google.com  # 200
+```
+
+ipinfo 在分流列表里，ipify 不在，两个结果不一样就说明分流生效了：列表里的网站走住宅 IP，其他走 VPS。
+
+> 注意要用 `socks5h://`（域名在代理端解析），用 `socks5://` 时 curl 会先在本地解析成 IP 再发过去，服务端拿不到域名，域名规则就不生效（开了 sniffing 后能补救，见第十四节）。
+
+另外，用 curl 访问 claude.ai、chatgpt.com 返回 403 是正常的，这是 Cloudflare 拦截脚本请求，浏览器里打开没问题。
+
+## 十三、排除 YouTube：视频不要走住宅 IP
+
+### 13.1 为什么
+
+住宅 IP 带宽有限、有的还按流量计费，YouTube 走它既慢又浪费。而 YouTube 属于 Google，如果规则写成"Google 全走住宅"，视频流量会一起被带进去。
+
+### 13.2 为什么不用 geosite:google
+
+`geosite:google` 这个分类里包含 youtube.com、googlevideo.com、ytimg.com 等域名，用它等于把 YouTube 也送进住宅 IP。所以这里改成手写域名列表，只列需要"看起来像美国家庭用户"的域名，YouTube 再单独写一条 direct 规则，**放在 Google 规则前面**。xray 和 Hysteria2 都是按顺序匹配、命中即停：
+
+xray：
+
+```json
+{ "type": "field", "ip": ["geoip:private"], "outboundTag": "blocked" },
+{
+  "type": "field",
+  "domain": [
+    "domain:youtube.com", "domain:googlevideo.com", "domain:ytimg.com",
+    "domain:youtu.be", "domain:ggpht.com", "domain:youtube-nocookie.com"
+  ],
+  "outboundTag": "direct"
+},
+{ "...": "然后才是 resi 规则" }
+```
+
+Hysteria2：
+
+```yaml
+acl:
+  inline:
+    - direct(suffix:youtube.com)
+    - direct(suffix:googlevideo.com)
+    - direct(suffix:ytimg.com)
+    - direct(suffix:youtu.be)
+    - direct(suffix:ggpht.com)
+    - direct(suffix:youtube-nocookie.com)
+    - resi(suffix:google.com)
+    # ...
+```
+
+### 13.3 带宽实测
+
+在 VPS 上从 Cloudflare 测速节点下载 20MB：
+
+```bash
+# 经住宅 IP
+curl -s -o /dev/null -x socks5h://<RESI_USER>:<RESI_PASS>@<RESI_HOST>:<RESI_PORT> \
+  -w '%{speed_download} B/s\n' 'https://speed.cloudflare.com/__down?bytes=20000000'
+# VPS 直出
+curl -s -o /dev/null -w '%{speed_download} B/s\n' 'https://speed.cloudflare.com/__down?bytes=20000000'
+```
+
+| 出口 | 下载速度 |
+|---|---|
+| 住宅 IP | 约 7.4 MB/s（≈59 Mbps） |
+| VPS 直出 | 约 65 MB/s（≈520 Mbps） |
+
+住宅 IP 打开 Google 首页约 0.15 s，用来搜索和聊 AI 绰绰有余，但跑视频差了将近 9 倍，所以 YouTube 一定要排除。
+
+### 13.4 验证
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' -x socks5h://127.0.0.1:<LOCAL_PORT> https://www.youtube.com   # 200
+```
+
+也可以在 YouTube 播放器上右键"详细统计信息"，看连接速度是不是跟以前一样。
+
+## 十四、QUIC 导致 Google 定位仍然不对
+
+### 14.1 现象
+
+链式代理配好后，ipinfo.io 显示的是住宅 IP，一切正常，但 Chrome 里 Google 搜 "my location" 还是显示广东。在 `chrome://flags` 里把 **Experimental QUIC protocol** 改成 Disabled 并重启 Chrome 后，定位马上变成美国。
+
+### 14.2 原因
+
+Chrome 访问 Google 默认优先走 QUIC（HTTP/3，UDP 443）。问题出在两处：
+
+1. **分流规则拿不到域名。** Clash TUN 模式 + fake-ip 下，UDP 包到达 VPS 时可能只带 IP、不带域名；服务端没开 sniffing，就不知道这个包是发给 google.com 的，域名规则匹配不上，直接走了 `direct`，出口是 VPS IP，而 Google 的 IP 库把 VPS IP 标成了国内。
+2. **住宅 SOCKS5 多半不支持 UDP。** 就算匹配上了，QUIC 也没法稳定地经住宅 IP 出去。
+
+所以 TCP 的 HTTPS 请求走了住宅 IP，QUIC 请求却从 VPS 出去，Google 两边都看到了，就按 VPS IP 定位。ipinfo 不用 QUIC，所以看起来一切正常。
+
+### 14.3 修复思路
+
+不让 Google/AI 的 QUIC 出去，浏览器发现 UDP 443 不通会自动降级到 TCP（HTTPS），而 TCP 已经走住宅 IP。这样客户端什么都不用改，Chrome 的 QUIC 也可以重新打开。
+
+### 14.4 xray
+
+1. 给 VLESS inbound 开 sniffing，从 TLS SNI / HTTP Host / QUIC 握手里还原域名：
+
+```json
+"inbounds": [{
+  "port": 443,
+  "protocol": "vless",
+  "settings": { "...": "..." },
+  "streamSettings": { "...": "..." },
+  "sniffing": {
+    "enabled": true,
+    "destOverride": ["http", "tls", "quic"],
+    "routeOnly": true
+  }
+}]
+```
+
+`routeOnly: true` 只用嗅探出的域名做路由匹配，实际连接目标不变，不会因为改写目标地址带来副作用。
+
+2. 加 blackhole 出站，并在 resi 规则**之前**插一条"UDP 443 + 同一份域名 → block"：
+
+```json
+{ "tag": "block", "protocol": "blackhole" }
+```
+
+```json
+"rules": [
+  { "type": "field", "ip": ["geoip:private"], "outboundTag": "blocked" },
+  { "type": "field", "domain": ["domain:youtube.com", "domain:googlevideo.com", "..."], "outboundTag": "direct" },
+  { "type": "field", "network": "udp", "port": "443",
+    "domain": ["domain:google.com", "domain:googleapis.com", "...与 resi 相同的列表"],
+    "outboundTag": "block" },
+  { "type": "field", "domain": ["domain:google.com", "..."], "outboundTag": "resi" },
+  { "type": "field", "protocol": ["bittorrent"], "outboundTag": "blocked" }
+]
+```
+
+最终顺序：私有 IP 屏蔽 → YouTube 直连（TCP/UDP 都直连，YouTube 的 QUIC 不受影响）→ Google/AI 的 UDP 443 屏蔽 → Google/AI 走住宅 → BT 屏蔽 → 其余默认直连。
+
+这里没有用 `geoip:google` 按 IP 屏蔽 UDP，因为 Google 的 IP 段里也有 YouTube 视频服务器，会误伤 YouTube 的 QUIC；按域名 + sniffing 已经够用。
+
+### 14.5 Hysteria2
+
+ACL 支持在规则后面写协议和端口，在 resi 行前面插入 reject：
+
+```yaml
+acl:
+  inline:
+    - direct(suffix:youtube.com)
+    # ……YouTube 其他域名
+    - reject(suffix:google.com, udp/443)
+    - reject(suffix:googleapis.com, udp/443)
+    # ……与 resi 相同的列表
+    - resi(suffix:google.com)
+    - resi(suffix:googleapis.com)
+    # ……
+    - direct(all)
+```
+
+```bash
+xray run -test -c /usr/local/etc/xray/config.json
+systemctl restart xray hysteria-server
+systemctl is-active xray hysteria-server
+```
+
+### 14.6 验证
+
+1. 先重跑上面的命令行测试：ipinfo 显示住宅 IP，ipify 显示 `<VPS_IP>`，google.com 返回 200，youtube.com 返回 200。
+2. 在 `chrome://flags` 里把 QUIC 改回 Default，重启 Chrome。
+3. 打开 Google 搜 "my location"，页面底部应显示美国（住宅 IP 所在地），不再是广东或武汉。
+4. 想确认 Google 走的是 TCP：打开开发者工具 → Network，右键表头勾选 Protocol，google.com 的请求应显示 `h2` 而不是 `h3`；YouTube 视频请求仍可以是 `h3`。
+
+## 十五、完整排障顺序
 
 以后遇到“节点测试正常，但网页打不开”时，可以按下面顺序检查。
 
-### 12.1 服务端
+### 15.1 服务端
 
 ```bash
 systemctl is-active xray
@@ -681,7 +959,7 @@ ss -ltnp 'sport = :443'
 journalctl -u xray -p err -n 50 --no-pager
 ```
 
-### 12.2 客户端节点
+### 15.2 客户端节点
 
 检查：
 
@@ -693,7 +971,7 @@ journalctl -u xray -p err -n 50 --no-pager
 - `xtls-rprx-vision`；
 - TLS 指纹。
 
-### 12.3 Clash 运行时
+### 15.3 Clash 运行时
 
 不要只看 UI 开关，还要确认：
 
@@ -704,7 +982,7 @@ dns-hijack=any:53
 目标域名的连接链包含预期代理组
 ```
 
-### 12.4 DNS
+### 15.4 DNS
 
 ```bash
 dig +short www.google.com A
@@ -713,7 +991,7 @@ dig +short www.baidu.com A
 
 随后做权威 DNS 深度测试，确认没有真实运营商解析器。
 
-### 12.5 目标服务
+### 15.5 目标服务
 
 如果网络、TLS、DNS 和路由均正常，但目标服务仍提示地区不支持，就检查：
 
@@ -721,9 +999,10 @@ dig +short www.baidu.com A
 - 登录前后是否不同；
 - Google 搜索页底部如何判断位置；
 - 同一服务的所有域名是否使用同一出口；
-- 是否需要不同网段、不同 ASN 或住宅/家庭网络出口。
+- 是否需要不同网段、不同 ASN 或住宅/家庭网络出口；
+- 在 `chrome://flags` 关闭 QUIC 后重测：若位置随之变正常，说明 UDP 443 绕开了住宅出口，见第十四节。
 
-## 十三、公开发布前的脱敏清单
+## 十六、公开发布前的脱敏清单
 
 提交博客前再次搜索：
 
